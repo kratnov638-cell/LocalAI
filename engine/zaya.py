@@ -8,6 +8,7 @@ is not.
 from __future__ import annotations
 
 import math
+import logging
 from collections import OrderedDict
 import numpy as np
 
@@ -42,6 +43,16 @@ class ZayaModel(LlamaModel):
         # the portable fallback and is bounded because each expert is large.
         self._expert_cache = OrderedDict()
         self._expert_cache_limit = 4
+        # A ZAYA prefix snapshot includes its recurrent CCA state as well as KV.
+        # The default system message is identical across turns, so the first
+        # <|im_end|> boundary can be reused without replaying those tokens.
+        self._prefix_cache_tokens = None
+        self._prefix_cache_length = 0
+        self._prefix_cache_k = None
+        self._prefix_cache_v = None
+        self._prefix_cache_conv_state = None
+        self._prefix_cache_prev_hidden = None
+        self._prefix_cache_logits = None
         self._rope_inv = 1.0 / (self.rope_base ** (np.arange(self.rope_dim // 2, dtype=np.float32) / (self.rope_dim // 2)))
         # Fail early on incomplete/mismatched tensor mapping instead of generating garbage.
         required = ['token_embd.weight', 'output_norm.weight', 'res_scale_hs.weight',
@@ -65,6 +76,65 @@ class ZayaModel(LlamaModel):
         self.cache.reset()
         self._conv_state.fill(0)
         self._prev_hidden.fill(0)
+
+    def prefill_prompt(self, prompt, stop_event, tokenizer):
+        """Prefill tokens sequentially while reusing an identical system prefix.
+
+        ZAYA's CCA convolutions and delayed-value projections make normal
+        batched prefill incorrect. This optimization instead snapshots all
+        recurrent state at the first end-of-message token and restores it when
+        the next prompt begins with the exact same token sequence.
+        """
+        prompt = list(prompt)
+        boundary = next(
+            (i + 1 for i, token in enumerate(prompt) if token in tokenizer.stop_ids),
+            0,
+        )
+        use_cache = (
+            boundary > 0
+            and self._prefix_cache_tokens is not None
+            and len(prompt) >= self._prefix_cache_length
+            and self._prefix_cache_length == boundary
+            and tuple(prompt[:boundary]) == self._prefix_cache_tokens
+        )
+        if use_cache:
+            prefix_len = self._prefix_cache_length
+            logging.getLogger(__name__).info(
+                'ZAYA prefill prefix cache hit; reused_tokens=%d; remaining_tokens=%d/%d',
+                prefix_len, len(prompt) - prefix_len, len(prompt),
+            )
+            self.cache.k[:, :prefix_len] = self._prefix_cache_k
+            self.cache.v[:, :prefix_len] = self._prefix_cache_v
+            self.cache.length = prefix_len
+            self._conv_state[:] = self._prefix_cache_conv_state
+            self._prev_hidden[:] = self._prefix_cache_prev_hidden
+            logits = self._prefix_cache_logits.copy()
+            start = prefix_len
+        else:
+            if boundary:
+                logging.getLogger(__name__).info(
+                    'ZAYA prefill prefix cache miss; will cache_prefix_tokens=%d', boundary,
+                )
+            self.cache.reset()
+            self._conv_state.fill(0)
+            self._prev_hidden.fill(0)
+            logits = None
+            start = 0
+
+        for pos in range(start, len(prompt)):
+            if stop_event.is_set():
+                return None
+            logits = self.forward(prompt[pos], pos)
+            self.cache.length = pos + 1
+            if boundary and pos + 1 == boundary and not use_cache:
+                self._prefix_cache_tokens = tuple(prompt[:boundary])
+                self._prefix_cache_length = boundary
+                self._prefix_cache_k = self.cache.k[:, :boundary].copy()
+                self._prefix_cache_v = self.cache.v[:, :boundary].copy()
+                self._prefix_cache_conv_state = self._conv_state.copy()
+                self._prefix_cache_prev_hidden = self._prev_hidden.copy()
+                self._prefix_cache_logits = logits.copy()
+        return logits
 
     def _expert_matvec(self, name, expert, x):
         """Dequantize only one packed expert, not the entire 16-expert tensor."""
@@ -117,7 +187,26 @@ class ZayaModel(LlamaModel):
 
     @staticmethod
     def _res_scale(branch, scale, bias):
+        # Matches Zyphra's legacy Transformers ResidualScaling.forward:
+        # (branch + learned_bias) * learned_scale. The order matters because
+        # these learned biases are applied at every layer and at the final merge.
         return (branch + bias) * scale
+
+    @staticmethod
+    def _grouped_attention(q, keys, values):
+        """Grouped-query attention without materializing repeated KV heads.
+
+        Legacy ZAYA has 8 query heads and 2 KV heads (4 queries per KV head).
+        Expanding the KV cache with ``np.repeat`` on every prompt token creates
+        two avoidable allocations per CCA layer. Keep KV at 2 heads and express
+        the same mapping directly in the contractions.
+        """
+        q_grouped = q.reshape(2, 4, 128)
+        scores = np.einsum('ghd,sgd->ghs', q_grouped, keys, optimize=True) / math.sqrt(128.0)
+        scores -= scores.max(axis=-1, keepdims=True)
+        probs = np.exp(scores)
+        probs /= probs.sum(axis=-1, keepdims=True)
+        return np.einsum('ghs,sgd->ghd', probs, values, optimize=True).reshape(1024)
 
     def _cca(self, layer, h, pos):
         p = f'blk.{layer}.'
@@ -176,12 +265,9 @@ class ZayaModel(LlamaModel):
         self._prev_hidden[layer] = h
         value = np.concatenate((vcur, vdel)).reshape(2, 128)
         self.cache.v[layer, pos] = value
-        ks = np.repeat(self.cache.k[layer, :pos+1], 4, axis=1).transpose(1, 0, 2)
-        vs = np.repeat(self.cache.v[layer, :pos+1], 4, axis=1).transpose(1, 0, 2)
-        scores = np.einsum('hd,hld->hl', q, ks, optimize=True) / math.sqrt(128.0)
-        scores -= scores.max(axis=-1, keepdims=True)
-        probs = np.exp(scores); probs /= probs.sum(axis=-1, keepdims=True)
-        att = np.einsum('hl,hld->hd', probs, vs, optimize=True).reshape(1024)
+        att = self._grouped_attention(
+            q, self.cache.k[layer, :pos+1], self.cache.v[layer, :pos+1]
+        )
         out = self._matvec(p + 'attn_output.weight', att)
         return out
 

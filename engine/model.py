@@ -248,11 +248,16 @@ class LlamaModel:
         prompt=ids[-self.cache.max_seq:]
         prefill_started = time.perf_counter()
         if stop_event.is_set(): return
+        # Architectures with recurrent state may provide their own prefill path
+        # (for example ZAYA's CCA state and reusable prompt-prefix snapshots).
+        if hasattr(self, 'prefill_prompt'):
+            logits = self.prefill_prompt(prompt, stop_event, tokenizer)
+            if logits is None or stop_event.is_set(): return
         # This batched implementation currently models the standard Llama
         # attention block only. Qwen2/Qwen3 have architecture-specific details
         # (including rotary scaling), so keep their proven tokenwise prefill
         # until a separately verified batched implementation exists.
-        if (self.arch == 'llama' and self.rope_scaling_type in {'none', ''}
+        elif (self.arch == 'llama' and self.rope_scaling_type in {'none', ''}
                 and self.rope_scaling_factor <= 1.0 and hasattr(self, 'forward_sequence')):
             logits = self.forward_sequence(prompt, stop_event)
             if logits is None or stop_event.is_set(): return

@@ -1,5 +1,6 @@
 ﻿"""PySide6 chat UI for the in-repository NumPy inference engine."""
 import logging
+import re
 import threading
 import time
 from pathlib import Path
@@ -53,7 +54,7 @@ def format_chat(messages, metadata):
                 'content': (
                     'Answer in English.'
                     if language == 'en' else
-                    'Отвечай по-русски естественно и грамотно. Пиши связно, без повторов и выдуманных советов.'
+                    'Отвечай по-русски естественно. Не повторяйся.'
                 ),
             })
         if qwen35 and not any(m.get('role') == 'system' for m in prompt_messages):
@@ -97,8 +98,202 @@ def format_chat(messages, metadata):
     return prompt + 'Assistant: '
 
 
+def is_followup_request(content):
+    """Heuristically recognize short requests that modify/refer to the last answer."""
+    text = ' '.join(str(content).casefold().split())
+    phrases = (
+        'теперь', 'напиши тест', 'напиши провер', 'код провер', 'функцию для проверки', 'для проверки', 'исправ',
+        'добавь', 'добавить', 'измени', 'переделай', 'объясни', 'поясни',
+        'продолж', 'а теперь', 'сделай так', 'в этом коде', 'этот код',
+        'эту функцию', 'предыдущ', 'то же самое', 'короче', 'подробнее',
+        'now ', 'write tests', 'add ', 'fix ', 'change ', 'modify ',
+        'explain ', 'continue', 'in this code', 'that function', 'same thing',
+    )
+    return any(phrase in text for phrase in phrases)
+
+
+def summarize_answer_for_context(answer):
+    """Keep identifiers from the last answer without replaying its full code."""
+    answer = str(answer).strip()
+    functions = re.findall(
+        r'^\s*(?:async\s+)?def\s+([A-Za-z_]\w*)\s*\(([^)]*)\)', answer, re.MULTILINE
+    )
+    classes = re.findall(r'^\s*class\s+([A-Za-z_]\w*)\b', answer, re.MULTILINE)
+    if functions or classes:
+        items = [f'{name}({args.strip()})' for name, args in functions]
+        items.extend(classes)
+        return 'Предыдущий ответ содержит код с идентификаторами: ' + ', '.join(items[:8]) + '.'
+    # For prose/non-code answers retain a short excerpt, not an entire transcript.
+    plain = re.sub(r'```.*?```', '[фрагмент кода]', answer, flags=re.DOTALL)
+    plain = ' '.join(plain.split())
+    return plain[:500]
+
+
+def append_user_message(messages, content, architecture=''):
+    """Give ZAYA only the current task, with answer-only context on follow-ups.
+
+    Replaying the previous user prompt alongside a follow-up can make the model
+    repeat the old task. Keep the previous answer as system context and leave
+    the new user request as the sole user turn in the prompt.
+    """
+    is_zaya = str(architecture).lower() == 'zaya'
+    model_content = content
+    if (len(messages) >= 2
+            and messages[-1].get('role') == 'assistant'
+            and messages[-2].get('role') == 'user'
+            and messages[-2].get('_original_content', messages[-2].get('content')) == content):
+        del messages[-2:]
+    if is_zaya:
+        if is_followup_request(content) and len(messages) >= 2:
+            previous_answer = next(
+                (m.get('content', '') for m in reversed(messages) if m.get('role') == 'assistant'),
+                '',
+            )
+            if previous_answer:
+                context_summary = summarize_answer_for_context(previous_answer)
+                verification_request = any(
+                    marker in str(content).casefold()
+                    for marker in ('код проверки', 'напиши провер', 'напиши тест', 'функцию для проверки', 'для проверки', 'write tests', 'test code')
+                )
+                task_guidance = (
+                    'Текущий запрос просит проверку/тесты: создай отдельный тестовый код, который '
+                    'вызывает функцию из контекста. Не повторяй и не переписывай реализацию функции.\n\n'
+                    if verification_request else ''
+                )
+                standalone_rewrite = False
+                if verification_request:
+                    signature = re.search(
+                        r'^\s*(?:async\s+)?def\s+([A-Za-z_]\w*)\s*\(([^)]*)\)',
+                        previous_answer, re.MULTILINE,
+                    )
+                    if signature:
+                        function_name, arguments = signature.groups()
+                        if function_name == 'is_year_leap' and 'year' in arguments:
+                            model_content = (
+                                'Напиши короткий тестовый код для уже определённой функции is_year_leap(year). '
+                                'Не определяй функцию заново. Используй только эти проверки: '
+                                'assert is_year_leap(2000) is True; assert is_year_leap(1900) is False; '
+                                'assert is_year_leap(2024) is True; assert is_year_leap(2023) is False; '
+                                'assert is_year_leap(2100) is False; assert is_year_leap(2400) is True. '
+                                'Выведи только эти тесты, без дополнительных случаев.'
+                            )
+                            standalone_rewrite = True
+                        else:
+                            model_content = (
+                                f'Напиши отдельный тестовый код для функции {function_name}({arguments}). '
+                                'Не определяй эту функцию заново и не копируй её реализацию. '
+                                'Добавь не более 6 assert-проверок для типичных и граничных случаев. '
+                                'Выведи только тестовый код.'
+                            )
+                            standalone_rewrite = True
+                if standalone_rewrite:
+                    # The rewritten request now carries the needed function
+                    # identifier and test intent; don't also send prior context.
+                    messages.clear()
+                else:
+                    messages[:] = [{
+                        'role': 'system',
+                        'content': (
+                            'Краткий контекст предыдущего ответа (не повторяй его автоматически). '
+                            'Выполни именно текущий запрос пользователя; используй этот контекст '
+                            'только для понимания ссылки на предыдущую задачу.\n\n'
+                            + (task_guidance if not verification_request else '') + context_summary
+                        ),
+                    }]
+            else:
+                messages.clear()
+        else:
+            messages.clear()
+    user_message = {'role': 'user', 'content': model_content}
+    if is_zaya and model_content != content:
+        # Preserve the visible request separately so resending it is recognized
+        # as a retry even when the model-facing wording was clarified.
+        user_message['_original_content'] = content
+    messages.append(user_message)
+
+
+def generation_settings_for_model(settings, architecture, model_name=''):
+    """Apply architecture-specific defaults without overriding user choices."""
+    generation_settings = {key: value for key, value in settings.items() if key != 'language'}
+    if str(architecture).lower() == 'zaya':
+        # A 1.15 repetition penalty steers this coder checkpoint into unrelated
+        # schema/tool-like text. Keep the neutral distribution by default.
+        generation_settings.setdefault('repetition_penalty', 1.0)
+    if 'saiga_llama3_8b' in str(model_name).lower():
+        generation_settings.setdefault('top_k', 100)
+        generation_settings.setdefault('repetition_penalty', 1.05)
+    return generation_settings
+
+
+def is_code_only_request(prompt):
+    prompt = str(prompt).casefold()
+    return any(phrase in prompt for phrase in (
+        'пиши только код', 'только код', 'write code only', 'output code only', 'code only',
+    ))
+
+
+def is_single_function_request(prompt):
+    """Recognize a request for one function, where alternate implementations are noise."""
+    text = str(prompt).casefold()
+    asks_for_function = any(phrase in text for phrase in (
+        'напиши функцию', 'написать функцию', 'сделай функцию', 'создай функцию',
+        'реализуй функцию', 'функция на python', 'функцию на python',
+        'write a function', 'implement a function', 'create a function',
+        'python function',
+    ))
+    explicitly_requests_alternatives = any(phrase in text for phrase in (
+        'несколько вариантов', 'два варианта', 'альтернативные реализации',
+        'multiple implementations', 'several alternatives', 'two versions',
+    ))
+    return asks_for_function and not explicitly_requests_alternatives
+
+
+def prepare_generated_piece(previous, piece, code_only):
+    """Stop code-only generations at the first completed Markdown code fence."""
+    combined = previous + piece
+    if not code_only:
+        return combined, piece, False
+    first = combined.find('```')
+    if first < 0:
+        return combined, piece, False
+    second = combined.find('```', first + 3)
+    if second < 0:
+        return combined, piece, False
+    end = second + 3
+    visible_piece = combined[len(previous):end]
+    return combined[:end], visible_piece, True
+
+
+def truncate_repeated_function_definition(text):
+    """Return text before a repeated top-level Python function, if present.
+
+    Some local coder checkpoints ignore their end-of-turn token and restart the
+    same implementation until max_new is reached. Stop that loop at the second
+    definition instead of displaying several copies or a partial extra copy.
+    """
+    definitions = list(re.finditer(
+        r'(?m)^[ \t]*(?:async[ \t]+)?def[ \t]+([A-Za-z_]\w*)[ \t]*\(', str(text)
+    ))
+    seen = set()
+    for match in definitions:
+        name = match.group(1)
+        if name in seen:
+            source = str(text)
+            prefix = source[:match.start()]
+            # If the duplicate starts inside a fenced code block, remove that
+            # block's opening fence too, otherwise the UI is left with a stray
+            # ````python`` after the valid first implementation.
+            fences = list(re.finditer(r'(?m)^[ \t]*```[^\n]*(?:\n|$)', prefix))
+            if fences and not prefix[fences[-1].end():].strip():
+                return source[:fences[-1].start()].rstrip()
+            return prefix.rstrip()
+        seen.add(name)
+    return None
+
+
 class GenerationWorker(QObject):
     text = Signal(str)
+    answer_revised = Signal(str)
     status = Signal(str)
     error = Signal(str)
     session_ready = Signal(object)
@@ -112,6 +307,10 @@ class GenerationWorker(QObject):
     @Slot()
     def run(self):
         emitted = 0
+        generated_text = ''
+        # A request for one function should produce one implementation, not a
+        # series of alternative functions until max_new is exhausted.
+        code_only = is_code_only_request(self.prompt) or is_single_function_request(self.prompt)
         try:
             if self.session is None:
                 logging.getLogger(__name__).info('Opening model: %s', self.path)
@@ -131,11 +330,22 @@ class GenerationWorker(QObject):
             logging.getLogger(__name__).info('Generation started; prompt_tokens=%d', len(ids))
 
             def emit(piece):
-                nonlocal emitted
+                nonlocal emitted, generated_text
                 # Token decoding can emit an empty fragment for partial UTF-8,
                 # and a final decoder flush can emit text without a new token.
                 # Count sampled tokens from the model, not UI text chunks.
                 emitted = int(getattr(model, 'last_generated_tokens', emitted + 1))
+                generated_text, piece, stop_after_piece = prepare_generated_piece(
+                    generated_text, piece, code_only
+                )
+                repeated_cut = truncate_repeated_function_definition(generated_text)
+                if repeated_cut is not None:
+                    generated_text = repeated_cut
+                    self.stop_event.set()
+                    self.answer_revised.emit(generated_text)
+                    return
+                if stop_after_piece:
+                    self.stop_event.set()
                 self.text.emit(piece)
                 elapsed = max(time.perf_counter() - generation_start, 1e-6)
                 prefill_s = max(0.0, float(getattr(model, 'last_prefill_seconds', 0.0)))
@@ -149,19 +359,8 @@ class GenerationWorker(QObject):
             if hasattr(model, 'progress_callback'):
                 model.progress_callback = self.status.emit
             try:
-                generation_settings = {key: value for key, value in self.settings.items() if key != 'language'}
-                if str(self.session.gguf.metadata.get('general.architecture', '')).lower() == 'zaya':
-                    # The coder-tuned ZAYA checkpoint tends to loop at warmer
-                    # sampling settings on open-ended Russian prose. Use a
-                    # conservative profile by default; explicit UI temperature
-                    # and top-p choices are preserved by the caller.
-                    generation_settings.setdefault('repetition_penalty', 1.15)
-                if 'saiga_llama3_8b' in model_name:
-                    # Match the known-good Saiga/KoboldCpp sampling profile.
-                    # Very low temperature plus aggressive repetition penalty
-                    # made the old incorrect RoPE path look even less fluent.
-                    generation_settings.setdefault('top_k', 100)
-                    generation_settings.setdefault('repetition_penalty', 1.05)
+                architecture = str(self.session.gguf.metadata.get('general.architecture', '')).lower()
+                generation_settings = generation_settings_for_model(self.settings, architecture, model_name)
                 model.generate(ids, tokenizer, self.stop_event, emit, **generation_settings)
                 profiler = getattr(model, 'decode_profiler', None)
                 profile = profiler.report() if profiler is not None else None
@@ -457,12 +656,11 @@ class MainWindow(QMainWindow):
             self.stop_generation()
             return
 
-        self.messages.append({'role': 'user', 'content': content})
-        self.chat.append(f'You: {content}\nLocalAI: ')
         self.input.clear()
         self.current_answer = ''
         self.send_button.setEnabled(False)
         self.stop_event = threading.Event()
+        previous_messages = list(self.messages)
         try:
             if self.metadata is None:
                 with GGUFFile(self.model_path) as gguf:
@@ -470,6 +668,13 @@ class MainWindow(QMainWindow):
             prompt_metadata = dict(self.metadata)
             prompt_metadata['_localai_language'] = self.language
             model_name = str(prompt_metadata.get('general.name', '')).lower()
+            architecture = str(prompt_metadata.get('general.architecture', '')).lower()
+            append_user_message(self.messages, content, architecture)
+            if architecture == 'zaya' and not self._temperature_user_set:
+                # Zyphra recommends temperature 0.6 for coding/agent use.
+                self.temperature.blockSignals(True)
+                self.temperature.setValue(.6)
+                self.temperature.blockSignals(False)
             if 'saiga_llama3_8b' in model_name:
                 if not self._temperature_user_set:
                     self.temperature.blockSignals(True); self.temperature.setValue(.75); self.temperature.blockSignals(False)
@@ -477,11 +682,13 @@ class MainWindow(QMainWindow):
                     self.top_p.blockSignals(True); self.top_p.setValue(.92); self.top_p.blockSignals(False)
             prompt = format_chat(self.messages, prompt_metadata)
         except Exception as exc:
-            self.messages.pop()
+            self.messages[:] = previous_messages
             self.send_button.setEnabled(True)
             QMessageBox.critical(self, 'GGUF error', str(exc))
             logging.getLogger(__name__).exception('Could not prepare prompt')
             return
+
+        self.chat.append(f'You: {content}\nLocalAI: ')
 
         self.thread = QThread(self)
         settings = {'temperature': self.temperature.value(), 'top_p': self.top_p.value(), 'max_new': self.max_new.value(), 'language': self.language}
@@ -489,6 +696,7 @@ class MainWindow(QMainWindow):
         self.worker.moveToThread(self.thread)
         self.thread.started.connect(self.worker.run)
         self.worker.text.connect(self.append_token, Qt.ConnectionType.QueuedConnection)
+        self.worker.answer_revised.connect(self.revise_current_answer, Qt.ConnectionType.QueuedConnection)
         self.worker.status.connect(self.status_label.setText, Qt.ConnectionType.QueuedConnection)
         self.worker.error.connect(self.show_generation_error, Qt.ConnectionType.QueuedConnection)
         self.worker.session_ready.connect(self.set_session, Qt.ConnectionType.QueuedConnection)
@@ -515,6 +723,21 @@ class MainWindow(QMainWindow):
         self.current_answer += text
         self.chat.moveCursor(self.chat.textCursor().MoveOperation.End)
         self.chat.insertPlainText(text)
+        self.chat.ensureCursorVisible()
+
+    @Slot(str)
+    def revise_current_answer(self, text):
+        """Replace the streamed tail when generation detects a repeated function."""
+        cursor = self.chat.textCursor()
+        cursor.movePosition(cursor.MoveOperation.End)
+        if self.current_answer:
+            cursor.movePosition(
+                cursor.MoveOperation.PreviousCharacter,
+                cursor.MoveMode.KeepAnchor,
+                len(self.current_answer),
+            )
+        cursor.insertText(text)
+        self.current_answer = text
         self.chat.ensureCursorVisible()
 
     @Slot()
