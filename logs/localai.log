@@ -386,3 +386,103 @@ NotImplementedError: GGUF architecture 'zaya' is not implemented by this engine.
 2026-10-28 16:38:35,641 INFO app.window: Opening model: C:\LLM\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
 2026-10-28 16:38:36,898 INFO app.window: Generation started; prompt_tokens=72
 2026-10-28 16:38:47,069 INFO app.window: Generation finished; output_tokens=7; prefill_s=8.714; decode_s=1.457; decode_tok_s=4.805; total_tok_s=0.688
+2026-10-28 17:15:09,959 INFO app.window: Selected model: C:\LLM\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 17:15:25,766 INFO app.window: Opening model: C:\LLM\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 17:15:27,126 INFO app.window: Generation started; prompt_tokens=78
+2026-10-28 17:15:27,624 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 17:16:08,141 INFO app.window: Generation finished; output_tokens=142; prefill_s=10.194; decode_s=30.820; decode_tok_s=4.607; total_tok_s=3.462
+2026-10-28 17:16:22,705 INFO app.window: Generation started; prompt_tokens=276
+2026-10-28 17:17:16,883 INFO app.window: Generation finished; output_tokens=87; prefill_s=36.562; decode_s=17.617; decode_tok_s=4.939; total_tok_s=1.606
+2026-10-28 17:18:19,042 INFO app.window: Selected model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 17:18:29,740 INFO app.window: Opening model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 17:18:31,839 INFO app.window: Generation started; prompt_tokens=85
+2026-10-28 17:19:44,028 INFO app.window: Generation finished; output_tokens=350; prefill_s=12.706; decode_s=59.483; decode_tok_s=5.884; total_tok_s=4.848
+2026-10-28 17:19:55,542 INFO app.window: Generation started; prompt_tokens=484
+2026-10-28 17:24:01,002 INFO app.window: Generation finished; output_tokens=753; prefill_s=76.155; decode_s=169.305; decode_tok_s=4.448; total_tok_s=3.068
+2026-10-28 17:27:49,827 INFO app.window: Selected model: C:\LLM\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 17:27:54,428 INFO app.window: Selected model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 17:28:05,962 INFO app.window: Opening model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 17:28:08,084 INFO app.window: Generation started; prompt_tokens=89
+2026-10-28 17:28:08,547 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 17:29:02,110 INFO app.window: Generation finished; output_tokens=256; prefill_s=13.436; decode_s=40.589; decode_tok_s=6.307; total_tok_s=4.739
+2026-10-28 17:40:04,717 INFO app.window: Selected model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 17:40:07,226 INFO app.window: Opening model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 17:40:09,348 INFO app.window: Generation started; prompt_tokens=89
+2026-10-28 17:40:09,877 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 17:40:22,854 INFO app.window: Generation finished; output_tokens=2; prefill_s=13.200; decode_s=0.306; decode_tok_s=6.543; total_tok_s=0.148
+2026-10-28 17:40:45,931 INFO app.window: Generation started; prompt_tokens=144
+2026-10-28 17:41:06,273 INFO app.window: Generation finished; output_tokens=1; prefill_s=20.175; decode_s=0.167; decode_tok_s=6.006; total_tok_s=0.049
+2026-10-28 17:52:52,377 INFO app.window: Selected model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 17:54:08,413 INFO app.window: Opening model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 17:54:10,588 INFO app.window: Generation started; prompt_tokens=89
+2026-10-28 17:54:11,035 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 17:55:06,290 INFO app.window: Generation finished; output_tokens=256; prefill_s=13.966; decode_s=41.735; decode_tok_s=6.134; total_tok_s=4.596
+2026-10-28 17:55:16,769 INFO app.window: Generation started; prompt_tokens=89
+2026-10-28 17:55:29,530 INFO app.window: Generation finished; output_tokens=1; prefill_s=12.612; decode_s=0.148; decode_tok_s=6.746; total_tok_s=0.078
+2026-10-28 18:30:34,600 INFO app.window: Selected model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 18:30:39,021 INFO app.window: Opening model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 18:30:41,170 INFO app.window: Generation started; prompt_tokens=89
+2026-10-28 18:30:41,635 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 18:31:05,715 INFO app.window: Generation finished; output_tokens=79; prefill_s=13.345; decode_s=11.200; decode_tok_s=7.053; total_tok_s=3.219
+2026-10-28 18:31:25,400 INFO app.window: Generation started; prompt_tokens=184
+2026-10-28 18:32:02,727 INFO app.window: Generation finished; output_tokens=79; prefill_s=25.609; decode_s=11.718; decode_tok_s=6.742; total_tok_s=2.116
+2026-10-28 18:36:19,333 INFO app.window: Selected model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 18:36:29,689 INFO app.window: Opening model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 18:36:31,898 INFO app.window: Generation started; prompt_tokens=85
+2026-10-28 18:36:32,334 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 18:37:24,406 INFO app.window: Generation finished; output_tokens=256; prefill_s=12.785; decode_s=39.723; decode_tok_s=6.445; total_tok_s=4.875
+2026-10-28 19:09:23,756 INFO app.window: Selected model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 19:09:31,425 INFO app.window: Opening model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 19:09:33,544 INFO app.window: Generation started; prompt_tokens=47
+2026-10-28 19:09:34,012 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 19:09:41,509 INFO app.window: Generation finished; output_tokens=4; prefill_s=7.403; decode_s=0.563; decode_tok_s=7.107; total_tok_s=0.502
+2026-10-28 19:09:46,571 INFO app.window: Generation started; prompt_tokens=50
+2026-10-28 19:10:15,283 INFO app.window: Generation finished; output_tokens=151; prefill_s=6.876; decode_s=21.837; decode_tok_s=6.915; total_tok_s=5.259
+2026-10-28 19:10:17,366 INFO app.window: Generation started; prompt_tokens=85
+2026-10-28 19:10:49,686 INFO app.window: Generation finished; output_tokens=144; prefill_s=11.661; decode_s=20.659; decode_tok_s=6.970; total_tok_s=4.455
+2026-10-28 19:11:27,971 INFO app.window: Generation started; prompt_tokens=52
+2026-10-28 19:11:50,117 INFO app.window: Generation finished; output_tokens=105; prefill_s=7.159; decode_s=14.988; decode_tok_s=7.006; total_tok_s=4.741
+2026-10-28 19:42:15,517 INFO app.window: Selected model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 19:42:18,139 INFO app.window: Opening model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 19:42:20,279 INFO app.window: Generation started; prompt_tokens=85
+2026-10-28 19:42:20,703 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 19:43:05,584 INFO app.window: Generation finished; output_tokens=220; prefill_s=12.607; decode_s=32.698; decode_tok_s=6.728; total_tok_s=4.856
+2026-10-28 19:43:07,907 INFO app.window: Generation started; prompt_tokens=52
+2026-10-28 19:43:53,041 INFO app.window: Generation finished; output_tokens=256; prefill_s=7.116; decode_s=38.018; decode_tok_s=6.734; total_tok_s=5.672
+2026-10-28 19:49:09,316 INFO app.window: Selected model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 19:49:12,275 INFO app.window: Opening model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 19:49:14,428 INFO app.window: Generation started; prompt_tokens=85
+2026-10-28 19:49:14,885 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 19:50:06,715 INFO app.window: Generation finished; output_tokens=256; prefill_s=12.945; decode_s=39.342; decode_tok_s=6.507; total_tok_s=4.896
+2026-10-28 20:04:46,794 INFO app.window: Selected model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 20:05:02,711 INFO app.window: Opening model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 20:05:04,850 INFO app.window: Generation started; prompt_tokens=84
+2026-10-28 20:05:05,314 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 20:05:28,731 INFO app.window: Generation finished; output_tokens=79; prefill_s=12.639; decode_s=11.242; decode_tok_s=7.027; total_tok_s=3.308
+2026-10-28 20:05:45,521 INFO app.window: Generation started; prompt_tokens=182
+2026-10-28 20:06:26,624 INFO app.window: Generation finished; output_tokens=110; prefill_s=25.370; decode_s=15.733; decode_tok_s=6.992; total_tok_s=2.676
+2026-10-28 20:18:06,359 INFO app.window: Selected model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 20:18:17,180 INFO app.window: Opening model: C:\LLM\zaya1-8b-coder-q6_k.gguf
+2026-10-28 20:18:19,299 INFO app.window: Generation started; prompt_tokens=69
+2026-10-28 20:18:19,300 INFO engine.zaya: ZAYA prefill prefix cache miss; will cache_prefix_tokens=18
+2026-10-28 20:18:19,768 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 20:18:40,854 INFO app.window: Generation finished; output_tokens=79; prefill_s=10.443; decode_s=11.113; decode_tok_s=7.109; total_tok_s=3.665
+2026-10-28 20:21:44,441 INFO app.window: Generation started; prompt_tokens=167
+2026-10-28 20:21:44,442 INFO engine.zaya: ZAYA prefill prefix cache hit; reused_tokens=18; remaining_tokens=149/167
+2026-10-28 20:22:29,569 INFO app.window: Generation finished; output_tokens=170; prefill_s=20.781; decode_s=24.347; decode_tok_s=6.982; total_tok_s=3.767
+2026-10-28 20:25:40,438 INFO app.window: Selected model: C:\LLM\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 20:25:43,305 INFO app.window: Opening model: C:\LLM\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 20:25:44,629 INFO app.window: Generation started; prompt_tokens=109
+2026-10-28 20:25:45,123 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 20:26:06,939 INFO app.window: Generation finished; output_tokens=44; prefill_s=13.784; decode_s=8.527; decode_tok_s=5.160; total_tok_s=1.972
+2026-10-28 20:26:17,771 INFO app.window: Generation started; prompt_tokens=169
+2026-10-28 20:27:28,965 INFO app.window: Generation finished; output_tokens=256; prefill_s=19.930; decode_s=51.265; decode_tok_s=4.994; total_tok_s=3.596
+2026-10-28 20:29:17,414 INFO app.window: Selected model: C:\LLM\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 20:29:19,384 INFO app.window: Opening model: C:\LLM\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 20:29:20,744 INFO app.window: Generation started; prompt_tokens=151
+2026-10-28 20:29:21,245 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 20:30:30,244 INFO app.window: Generation finished; output_tokens=244; prefill_s=19.316; decode_s=50.183; decode_tok_s=4.862; total_tok_s=3.511
+2026-10-28 20:31:34,146 INFO app.window: Selected model: C:\LLM\model-q4_K.gguf
+2026-10-28 20:31:37,770 INFO app.window: Opening model: C:\LLM\model-q4_K.gguf
+2026-10-28 20:31:38,736 INFO app.window: Generation started; prompt_tokens=104
+2026-10-28 20:33:00,409 INFO app.window: Generation finished; output_tokens=256; prefill_s=10.510; decode_s=71.162; decode_tok_s=3.597; total_tok_s=3.134
