@@ -1,0 +1,11 @@
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+engine/native_quant.dll
+engine/native_quant.obj
+engine/native_quant.lib
+engine/native_quant.exp
+models/*.gguf
+models/*
+!models/.gitkeep

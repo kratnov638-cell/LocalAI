@@ -1,0 +1,285 @@
+2026-10-27 14:23:56,804 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 14:24:00,149 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 14:24:01,332 ERROR app.window: Inference worker failed
+Traceback (most recent call last):
+  File "C:\LocalAI\app\window.py", line 67, in run
+    self.session = InferenceSession(self.path)
+                   ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\LocalAI\engine\session.py", line 17, in __init__
+    model_class = get_architecture(architecture)
+  File "C:\LocalAI\engine\architectures.py", line 43, in get_architecture
+    raise NotImplementedError(
+    ...<2 lines>...
+    ) from None
+NotImplementedError: GGUF architecture 'qwen35' is not implemented by this engine. Registered architectures: llama, qwen2. Qwen3.5 uses hybrid attention/SSM blocks and a multimodal vision tower; it needs its own implementation.
+2026-10-27 15:08:51,888 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 15:08:57,340 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 15:08:58,797 INFO app.window: Generation started; prompt_tokens=11
+2026-10-27 15:10:46,938 INFO app.window: Generation finished; output_tokens=0; tok_s=0.00
+2026-10-27 15:39:59,703 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 15:40:04,324 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 15:40:05,650 INFO app.window: Generation started; prompt_tokens=11
+2026-10-27 15:41:04,976 INFO app.window: Generation finished; output_tokens=14; tok_s=0.24
+2026-10-27 16:42:29,761 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 16:42:36,105 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 16:42:37,413 INFO app.window: Generation started; prompt_tokens=11
+2026-10-27 16:42:37,935 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_K + Q6_K (MSVC DLL)
+2026-10-27 16:42:54,199 INFO app.window: Generation finished; output_tokens=19; tok_s=1.13
+2026-10-27 16:43:07,153 INFO app.window: Generation started; prompt_tokens=45
+2026-10-27 16:43:31,256 INFO app.window: Generation finished; output_tokens=12; tok_s=0.50
+2026-10-27 16:44:01,632 INFO app.window: Generation started; prompt_tokens=71
+2026-10-27 16:44:31,586 INFO app.window: Generation finished; output_tokens=5; tok_s=0.17
+2026-10-27 16:53:25,839 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 16:53:38,632 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 16:53:39,948 INFO app.window: Generation started; prompt_tokens=21
+2026-10-27 16:53:40,424 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_K + Q6_K (MSVC DLL)
+2026-10-27 16:55:57,913 INFO app.window: Generation finished; output_tokens=237; tok_s=1.72
+2026-10-27 17:09:37,242 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 17:09:41,060 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 17:09:42,364 INFO app.window: Generation started; prompt_tokens=78
+2026-10-27 17:09:42,850 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_K + Q6_K (MSVC DLL)
+2026-10-27 17:11:46,272 INFO app.window: Generation finished; output_tokens=173; tok_s=1.40
+2026-10-27 17:23:24,431 INFO app.window: Selected model: C:\AI_Assistant\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 17:23:32,740 INFO app.window: Opening model: C:\AI_Assistant\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 17:23:33,964 INFO app.window: Generation started; prompt_tokens=72
+2026-10-27 17:23:35,305 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_K + Q6_K (MSVC DLL)
+2026-10-27 17:23:35,694 ERROR app.window: Inference worker failed
+Traceback (most recent call last):
+  File "C:\LocalAI\app\window.py", line 110, in run
+    model.generate(ids, tokenizer, self.stop_event, emit, **generation_settings)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\LocalAI\engine\qwen35.py", line 393, in generate
+    logits = self.forward_sequence(prompt, stop_event)
+  File "C:\LocalAI\engine\qwen35.py", line 335, in forward_sequence
+    attn = self._linear_attention_sequence(x_norm, layer, stop_event)
+  File "C:\LocalAI\engine\qwen35.py", line 297, in _linear_attention_sequence
+    dt_bias = self.w(p + 'ssm_dt')
+  File "C:\LocalAI\engine\qwen35.py", line 90, in w
+    self._weights[name] = self.gguf.tensor(name)
+                          ~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\LocalAI\engine\gguf_parser.py", line 134, in tensor
+    x=self.tensors[name]
+      ~~~~~~~~~~~~^^^^^^
+KeyError: 'blk.0.ssm_dt'
+2026-10-27 17:24:23,813 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 17:24:29,565 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 17:24:30,771 INFO app.window: Generation started; prompt_tokens=72
+2026-10-27 17:24:31,656 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_K + Q6_K (MSVC DLL)
+2026-10-27 17:24:31,725 ERROR app.window: Inference worker failed
+Traceback (most recent call last):
+  File "C:\LocalAI\app\window.py", line 110, in run
+    model.generate(ids, tokenizer, self.stop_event, emit, **generation_settings)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\LocalAI\engine\qwen35.py", line 393, in generate
+    logits = self.forward_sequence(prompt, stop_event)
+  File "C:\LocalAI\engine\qwen35.py", line 335, in forward_sequence
+    attn = self._linear_attention_sequence(x_norm, layer, stop_event)
+  File "C:\LocalAI\engine\qwen35.py", line 297, in _linear_attention_sequence
+    dt_bias = self.w(p + 'ssm_dt')
+  File "C:\LocalAI\engine\qwen35.py", line 90, in w
+    self._weights[name] = self.gguf.tensor(name)
+                          ~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\LocalAI\engine\gguf_parser.py", line 134, in tensor
+    x=self.tensors[name]
+      ~~~~~~~~~~~~^^^^^^
+KeyError: 'blk.0.ssm_dt'
+2026-10-27 17:39:13,196 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 17:39:19,143 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 17:39:20,340 INFO app.window: Generation started; prompt_tokens=72
+2026-10-27 17:39:21,192 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_K + Q6_K (MSVC DLL)
+2026-10-27 17:40:15,531 INFO app.window: Generation finished; output_tokens=7; tok_s=0.13
+2026-10-27 17:40:33,981 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 17:40:46,098 INFO app.window: Opening model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 17:40:47,128 INFO app.window: Generation started; prompt_tokens=40
+2026-10-27 17:43:23,330 INFO app.window: Generation finished; output_tokens=242; tok_s=1.55
+2026-10-27 19:28:13,306 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 19:28:25,826 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 19:28:27,404 INFO app.window: Generation started; prompt_tokens=78
+2026-10-27 19:28:28,060 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-27 19:31:22,060 INFO app.window: Generation finished; output_tokens=256; prefill_s=25.581; decode_s=149.075; decode_tok_s=1.717; total_tok_s=1.466
+2026-10-27 19:31:39,901 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 19:31:50,896 INFO app.window: Opening model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 19:31:51,854 INFO app.window: Generation started; prompt_tokens=20
+2026-10-27 19:31:59,962 INFO app.window: Generation finished; output_tokens=5; prefill_s=5.836; decode_s=2.272; decode_tok_s=2.201; total_tok_s=0.617
+2026-10-27 19:32:10,173 INFO app.window: Generation started; prompt_tokens=45
+2026-10-27 19:32:26,507 INFO app.window: Generation finished; output_tokens=12; prefill_s=10.814; decode_s=5.520; decode_tok_s=2.174; total_tok_s=0.735
+2026-10-27 19:32:44,987 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 19:32:53,739 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 19:32:55,043 INFO app.window: Generation started; prompt_tokens=78
+2026-10-27 19:33:43,231 INFO app.window: Generation finished; output_tokens=51; prefill_s=20.877; decode_s=27.310; decode_tok_s=1.867; total_tok_s=1.058
+2026-10-27 20:26:09,366 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 20:26:15,553 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 20:26:16,993 INFO app.window: Generation started; prompt_tokens=72
+2026-10-27 20:26:17,656 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-27 20:26:31,680 INFO app.window: Generation finished; output_tokens=7; prefill_s=11.539; decode_s=3.147; decode_tok_s=2.224; total_tok_s=0.477
+2026-10-27 20:27:05,254 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 20:27:33,764 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 20:27:46,293 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 20:27:47,858 INFO app.window: Generation started; prompt_tokens=98
+2026-10-27 20:29:55,718 INFO app.window: Generation finished; output_tokens=222; prefill_s=15.535; decode_s=112.325; decode_tok_s=1.976; total_tok_s=1.736
+2026-10-27 20:51:37,416 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 20:51:48,886 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 20:51:50,562 INFO app.window: Generation started; prompt_tokens=78
+2026-10-27 20:51:51,248 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-27 20:53:23,395 INFO app.window: Generation finished; output_tokens=166; prefill_s=15.074; decode_s=77.759; decode_tok_s=2.135; total_tok_s=1.788
+2026-10-27 20:53:41,281 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 20:54:02,722 INFO app.window: Opening model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 20:54:03,914 INFO app.window: Generation started; prompt_tokens=241
+2026-10-27 20:54:51,877 INFO app.window: Generation finished; output_tokens=0; prefill_s=0.000; decode_s=47.963; decode_tok_s=0.000; total_tok_s=0.000
+2026-10-27 20:55:04,059 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 20:55:07,400 INFO app.window: Generation started; prompt_tokens=27
+2026-10-27 20:55:16,204 INFO app.window: Generation finished; output_tokens=10; prefill_s=4.777; decode_s=4.026; decode_tok_s=2.484; total_tok_s=1.136
+2026-10-27 21:46:55,772 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 21:47:27,456 INFO app.window: Opening model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 21:47:28,474 INFO app.window: Generation started; prompt_tokens=13
+2026-10-27 21:47:28,967 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-27 21:47:39,065 INFO app.window: Generation finished; output_tokens=21; prefill_s=3.241; decode_s=7.350; decode_tok_s=2.857; total_tok_s=1.983
+2026-10-27 21:48:01,908 INFO app.window: Generation started; prompt_tokens=50
+2026-10-27 21:48:53,191 INFO app.window: Generation finished; output_tokens=113; prefill_s=5.599; decode_s=45.684; decode_tok_s=2.474; total_tok_s=2.203
+2026-10-27 21:59:18,479 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 21:59:28,257 INFO app.window: Opening model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 21:59:29,322 INFO app.window: Generation started; prompt_tokens=13
+2026-10-27 21:59:29,816 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-27 21:59:37,328 INFO app.window: Generation finished; output_tokens=13; prefill_s=3.329; decode_s=4.677; decode_tok_s=2.779; total_tok_s=1.624
+2026-10-27 23:06:12,180 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 23:06:21,079 INFO app.window: Opening model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 23:06:22,168 INFO app.window: Generation started; prompt_tokens=13
+2026-10-27 23:06:26,465 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-27 23:06:32,425 INFO app.window: Generation finished; output_tokens=9; prefill_s=7.008; decode_s=3.250; decode_tok_s=2.769; total_tok_s=0.877
+2026-10-27 23:06:41,860 INFO app.window: Generation started; prompt_tokens=37
+2026-10-27 23:06:46,831 INFO app.window: Generation finished; output_tokens=1; prefill_s=4.610; decode_s=0.361; decode_tok_s=2.773; total_tok_s=0.201
+2026-10-27 23:38:42,695 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 23:38:48,126 INFO app.window: Opening model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-27 23:38:49,217 INFO app.window: Generation started; prompt_tokens=13
+2026-10-27 23:38:49,753 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-27 23:38:56,859 INFO app.window: Generation finished; output_tokens=12; prefill_s=3.354; decode_s=4.288; decode_tok_s=2.798; total_tok_s=1.570
+2026-10-27 23:39:03,245 INFO app.window: Generation started; prompt_tokens=40
+2026-10-27 23:41:01,234 INFO app.window: Generation finished; output_tokens=256; prefill_s=4.988; decode_s=113.001; decode_tok_s=2.265; total_tok_s=2.170
+2026-10-27 23:41:34,740 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 23:41:40,665 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 23:41:42,056 INFO app.window: Generation started; prompt_tokens=72
+2026-10-27 23:41:55,786 INFO app.window: Generation finished; output_tokens=9; prefill_s=9.719; decode_s=4.012; decode_tok_s=2.243; total_tok_s=0.655
+2026-10-27 23:42:55,525 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 23:43:06,355 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 23:43:07,646 INFO app.window: Generation started; prompt_tokens=72
+2026-10-27 23:43:24,903 INFO app.window: Generation finished; output_tokens=8; prefill_s=13.809; decode_s=3.448; decode_tok_s=2.320; total_tok_s=0.464
+2026-10-27 23:43:30,905 INFO app.window: Selected model: C:\LocalAI\models\model-q8_0.gguf
+2026-10-27 23:43:35,084 INFO app.window: Opening model: C:\LocalAI\models\model-q8_0.gguf
+2026-10-27 23:43:36,109 INFO app.window: Generation started; prompt_tokens=13
+2026-10-27 23:43:49,294 INFO app.window: Generation finished; output_tokens=12; prefill_s=9.232; decode_s=3.953; decode_tok_s=3.036; total_tok_s=0.910
+2026-10-27 23:44:55,728 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 23:45:00,276 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-27 23:45:01,516 INFO app.window: Generation started; prompt_tokens=72
+2026-10-27 23:45:14,655 INFO app.window: Generation finished; output_tokens=8; prefill_s=9.568; decode_s=3.571; decode_tok_s=2.240; total_tok_s=0.609
+2026-10-27 23:45:36,802 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 23:45:41,588 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-27 23:45:42,985 INFO app.window: Generation started; prompt_tokens=72
+2026-10-27 23:45:55,836 INFO app.window: Generation finished; output_tokens=7; prefill_s=9.823; decode_s=3.028; decode_tok_s=2.312; total_tok_s=0.545
+2026-10-28 00:04:52,990 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 00:05:29,697 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 00:05:30,951 INFO app.window: Generation started; prompt_tokens=72
+2026-10-28 00:05:31,450 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 00:05:42,537 INFO app.window: Generation finished; output_tokens=7; prefill_s=9.148; decode_s=2.438; decode_tok_s=2.871; total_tok_s=0.604
+2026-10-28 00:06:01,007 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 00:06:07,730 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 00:06:09,023 INFO app.window: Generation started; prompt_tokens=72
+2026-10-28 00:06:20,246 INFO app.window: Generation finished; output_tokens=8; prefill_s=8.581; decode_s=2.642; decode_tok_s=3.028; total_tok_s=0.713
+2026-10-28 00:06:38,314 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-28 00:06:44,421 INFO app.window: Opening model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-28 00:06:45,371 INFO app.window: Generation started; prompt_tokens=13
+2026-10-28 00:06:51,934 INFO app.window: Generation finished; output_tokens=12; prefill_s=2.801; decode_s=3.762; decode_tok_s=3.190; total_tok_s=1.829
+2026-10-28 00:07:02,660 INFO app.window: Selected model: C:\LocalAI\models\model-q8_0.gguf
+2026-10-28 00:07:06,788 INFO app.window: Opening model: C:\LocalAI\models\model-q8_0.gguf
+2026-10-28 00:07:07,729 INFO app.window: Generation started; prompt_tokens=13
+2026-10-28 00:07:13,628 INFO app.window: Generation finished; output_tokens=12; prefill_s=2.217; decode_s=3.683; decode_tok_s=3.258; total_tok_s=2.034
+2026-10-28 12:50:48,238 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 12:50:53,219 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 12:50:54,561 INFO app.window: Generation started; prompt_tokens=72
+2026-10-28 12:50:56,384 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 12:51:10,164 INFO app.window: Generation finished; output_tokens=8; prefill_s=13.037; decode_s=2.566; decode_tok_s=3.117; total_tok_s=0.513
+2026-10-28 12:52:10,416 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 12:52:17,228 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 12:52:18,412 INFO app.window: Generation started; prompt_tokens=72
+2026-10-28 12:52:29,489 INFO app.window: Generation finished; output_tokens=8; prefill_s=8.560; decode_s=2.517; decode_tok_s=3.178; total_tok_s=0.722
+2026-10-28 12:53:00,143 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-28 12:53:04,536 INFO app.window: Opening model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-28 12:53:05,478 INFO app.window: Generation started; prompt_tokens=13
+2026-10-28 12:53:11,183 INFO app.window: Generation finished; output_tokens=12; prefill_s=2.632; decode_s=3.073; decode_tok_s=3.905; total_tok_s=2.103
+2026-10-28 12:53:20,207 INFO app.window: Selected model: C:\LocalAI\models\model-q8_0.gguf
+2026-10-28 12:53:24,936 INFO app.window: Opening model: C:\LocalAI\models\model-q8_0.gguf
+2026-10-28 12:53:25,887 INFO app.window: Generation started; prompt_tokens=13
+2026-10-28 12:53:38,864 INFO app.window: Generation finished; output_tokens=12; prefill_s=9.331; decode_s=3.646; decode_tok_s=3.291; total_tok_s=0.925
+2026-10-28 13:08:29,122 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 13:08:39,364 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 13:08:40,559 INFO app.window: Generation started; prompt_tokens=72
+2026-10-28 13:08:41,033 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 13:08:52,418 INFO app.window: Decode profile (instrumented; excludes prefill): forward_s=2.803 forward_calls=9 sampling_s=0.020 non_mat_s=0.398 mat_s=attention:0.133,gate:0.105,ffn:1.312,ssm:0.432,output_head:0.424,other:0.000 mat_calls=attention:288,gate:216,ffn:864,ssm:864,output_head:9,other:0
+2026-10-28 13:08:52,418 INFO app.window: Generation finished; output_tokens=9; prefill_s=9.013; decode_s=2.846; decode_tok_s=3.162; total_tok_s=0.759
+2026-10-28 13:09:08,652 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 13:09:13,445 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 13:09:14,773 INFO app.window: Generation started; prompt_tokens=72
+2026-10-28 13:09:26,614 INFO app.window: Decode profile (instrumented; excludes prefill): forward_s=3.275 forward_calls=10 sampling_s=0.019 non_mat_s=0.449 mat_s=attention:0.162,gate:0.128,ffn:1.674,ssm:0.406,output_head:0.456,other:0.000 mat_calls=attention:320,gate:240,ffn:960,ssm:960,output_head:10,other:0
+2026-10-28 13:09:26,615 INFO app.window: Generation finished; output_tokens=10; prefill_s=8.526; decode_s=3.316; decode_tok_s=3.016; total_tok_s=0.844
+2026-10-28 13:09:37,342 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-28 13:09:43,238 INFO app.window: Opening model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-28 13:09:44,176 INFO app.window: Generation started; prompt_tokens=13
+2026-10-28 13:09:50,016 INFO app.window: Decode profile (instrumented; excludes prefill): forward_s=3.094 forward_calls=12 sampling_s=0.052 non_mat_s=0.200 mat_s=attention:0.559,gate:0.000,ffn:2.034,ssm:0.000,output_head:0.302,other:0.000 mat_calls=attention:1536,gate:0,ffn:1152,ssm:0,output_head:12,other:0
+2026-10-28 13:09:50,016 INFO app.window: Generation finished; output_tokens=12; prefill_s=2.693; decode_s=3.148; decode_tok_s=3.813; total_tok_s=2.055
+2026-10-28 13:10:00,752 INFO app.window: Selected model: C:\LocalAI\models\model-q8_0.gguf
+2026-10-28 13:10:07,085 INFO app.window: Opening model: C:\LocalAI\models\model-q8_0.gguf
+2026-10-28 13:10:08,044 INFO app.window: Generation started; prompt_tokens=13
+2026-10-28 13:10:13,923 INFO app.window: Decode profile (instrumented; excludes prefill): forward_s=3.535 forward_calls=12 sampling_s=0.046 non_mat_s=0.162 mat_s=attention:0.690,gate:0.000,ffn:2.464,ssm:0.000,output_head:0.220,other:0.000 mat_calls=attention:1536,gate:0,ffn:1152,ssm:0,output_head:12,other:0
+2026-10-28 13:10:13,924 INFO app.window: Generation finished; output_tokens=12; prefill_s=2.298; decode_s=3.582; decode_tok_s=3.350; total_tok_s=2.041
+2026-10-28 13:15:35,538 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 13:15:52,424 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 13:15:53,624 INFO app.window: Generation started; prompt_tokens=72
+2026-10-28 13:15:54,109 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 13:16:05,795 INFO app.window: Decode profile (instrumented; excludes prefill): forward_s=3.059 forward_calls=10 sampling_s=0.020 non_mat_s=0.449 mat_s=attention:0.145,gate:0.118,ffn:1.457,ssm:0.429,output_head:0.461,other:0.000 mat_calls=attention:320,gate:240,ffn:960,ssm:960,output_head:10,other:0
+2026-10-28 13:16:05,795 INFO app.window: Generation finished; output_tokens=10; prefill_s=9.070; decode_s=3.102; decode_tok_s=3.224; total_tok_s=0.822
+2026-10-28 13:16:14,554 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 13:16:19,131 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 13:16:20,424 INFO app.window: Generation started; prompt_tokens=95
+2026-10-28 13:16:36,301 INFO app.window: Decode profile (instrumented; excludes prefill): forward_s=4.193 forward_calls=14 sampling_s=0.023 non_mat_s=0.640 mat_s=attention:0.203,gate:0.166,ffn:1.989,ssm:0.535,output_head:0.659,other:0.000 mat_calls=attention:448,gate:336,ffn:1344,ssm:1344,output_head:14,other:0
+2026-10-28 13:16:36,302 INFO app.window: Generation finished; output_tokens=14; prefill_s=11.640; decode_s=4.238; decode_tok_s=3.304; total_tok_s=0.882
+2026-10-28 13:16:48,864 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-28 13:16:53,427 INFO app.window: Opening model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-28 13:16:54,383 INFO app.window: Generation started; prompt_tokens=13
+2026-10-28 13:17:00,437 INFO app.window: Decode profile (instrumented; excludes prefill): forward_s=3.351 forward_calls=12 sampling_s=0.048 non_mat_s=0.170 mat_s=attention:0.599,gate:0.000,ffn:2.294,ssm:0.000,output_head:0.288,other:0.000 mat_calls=attention:1536,gate:0,ffn:1152,ssm:0,output_head:12,other:0
+2026-10-28 13:17:00,437 INFO app.window: Generation finished; output_tokens=12; prefill_s=2.654; decode_s=3.400; decode_tok_s=3.529; total_tok_s=1.982
+2026-10-28 13:17:16,217 INFO app.window: Selected model: C:\LocalAI\models\model-q8_0.gguf
+2026-10-28 13:17:21,048 INFO app.window: Opening model: C:\LocalAI\models\model-q8_0.gguf
+2026-10-28 13:17:21,999 INFO app.window: Generation started; prompt_tokens=13
+2026-10-28 13:17:27,331 INFO app.window: Decode profile (instrumented; excludes prefill): forward_s=3.020 forward_calls=12 sampling_s=0.043 non_mat_s=0.176 mat_s=attention:0.605,gate:0.000,ffn:2.055,ssm:0.000,output_head:0.185,other:0.000 mat_calls=attention:1536,gate:0,ffn:1152,ssm:0,output_head:12,other:0
+2026-10-28 13:17:27,331 INFO app.window: Generation finished; output_tokens=12; prefill_s=2.268; decode_s=3.065; decode_tok_s=3.916; total_tok_s=2.250
+2026-10-28 13:17:38,268 INFO app.window: Selected model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-28 13:17:42,208 INFO app.window: Opening model: C:\LocalAI\models\model-q4_K.gguf
+2026-10-28 13:17:43,148 INFO app.window: Generation started; prompt_tokens=13
+2026-10-28 13:17:49,494 INFO app.window: Decode profile (instrumented; excludes prefill): forward_s=3.572 forward_calls=12 sampling_s=0.047 non_mat_s=0.187 mat_s=attention:0.653,gate:0.000,ffn:2.436,ssm:0.000,output_head:0.295,other:0.000 mat_calls=attention:1536,gate:0,ffn:1152,ssm:0,output_head:12,other:0
+2026-10-28 13:17:49,494 INFO app.window: Generation finished; output_tokens=12; prefill_s=2.725; decode_s=3.620; decode_tok_s=3.315; total_tok_s=1.891
+2026-10-28 13:17:59,720 INFO app.window: Generation started; prompt_tokens=41
+2026-10-28 13:19:03,071 INFO app.window: Decode profile (instrumented; excludes prefill): forward_s=58.018 forward_calls=180 sampling_s=0.565 non_mat_s=10.361 mat_s=attention:9.037,gate:0.000,ffn:34.175,ssm:0.000,output_head:4.444,other:0.000 mat_calls=attention:23040,gate:0,ffn:17280,ssm:0,output_head:180,other:0
+2026-10-28 13:19:03,072 INFO app.window: Generation finished; output_tokens=180; prefill_s=4.757; decode_s=58.594; decode_tok_s=3.072; total_tok_s=2.841
+2026-10-28 13:20:37,876 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 13:20:56,159 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 13:20:57,334 INFO app.window: Generation started; prompt_tokens=78
+2026-10-28 13:20:57,796 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 13:22:28,525 INFO app.window: Generation finished; output_tokens=256; prefill_s=10.078; decode_s=81.113; decode_tok_s=3.156; total_tok_s=2.807
+2026-10-28 13:24:11,720 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 13:24:22,759 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 13:24:23,952 INFO app.window: Generation started; prompt_tokens=78
+2026-10-28 13:24:24,444 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 13:24:52,375 INFO app.window: Decode profile (instrumented; excludes prefill): forward_s=18.198 forward_calls=59 sampling_s=0.095 non_mat_s=2.717 mat_s=attention:0.870,gate:0.745,ffn:8.569,ssm:2.558,output_head:2.738,other:0.000 mat_calls=attention:1888,gate:1416,ffn:5664,ssm:5664,output_head:59,other:0 top_matrices=output.weight:2.738s/59,blk.12.ffn_down.weight:0.154s/59,blk.6.ffn_down.weight:0.154s/59,blk.1.ffn_down.weight:0.152s/59,blk.2.ffn_down.weight:0.149s/59,blk.0.ffn_down.weight:0.149s/59,blk.9.ffn_down.weight:0.148s/59,blk.18.ffn_down.weight:0.147s/59,blk.3.ffn_down.weight:0.146s/59,blk.15.ffn_down.weight:0.145s/59,blk.28.ffn_down.weight:0.145s/59,blk.27.ffn_down.weight:0.145s/59
+2026-10-28 13:24:52,375 INFO app.window: Generation finished; output_tokens=59; prefill_s=10.105; decode_s=18.318; decode_tok_s=3.221; total_tok_s=2.076
+2026-10-28 13:25:16,781 INFO app.window: Generation started; prompt_tokens=158
+2026-10-28 13:26:43,549 INFO app.window: Decode profile (instrumented; excludes prefill): forward_s=67.974 forward_calls=221 sampling_s=0.353 non_mat_s=11.003 mat_s=attention:3.147,gate:2.603,ffn:31.516,ssm:9.355,output_head:10.349,other:0.000 mat_calls=attention:7072,gate:5304,ffn:21216,ssm:21216,output_head:221,other:0 top_matrices=output.weight:10.349s/221,blk.12.ffn_down.weight:0.558s/221,blk.6.ffn_down.weight:0.556s/221,blk.2.ffn_down.weight:0.555s/221,blk.0.ffn_down.weight:0.555s/221,blk.1.ffn_down.weight:0.547s/221,blk.30.ffn_down.weight:0.546s/221,blk.24.ffn_down.weight:0.546s/221,blk.3.ffn_down.weight:0.545s/221,blk.15.ffn_down.weight:0.543s/221,blk.9.ffn_down.weight:0.539s/221,blk.31.ffn_down.weight:0.539s/221
+2026-10-28 13:26:43,549 INFO app.window: Generation finished; output_tokens=221; prefill_s=18.416; decode_s=68.352; decode_tok_s=3.233; total_tok_s=2.547
+2026-10-28 14:05:25,921 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 14:05:30,481 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-abliterated-vision-Q4_K_M.gguf
+2026-10-28 14:05:31,810 INFO app.window: Generation started; prompt_tokens=72
+2026-10-28 14:05:32,328 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 14:05:43,369 INFO app.window: Generation finished; output_tokens=11; prefill_s=9.051; decode_s=2.508; decode_tok_s=4.387; total_tok_s=0.952
+2026-10-28 14:23:52,844 INFO app.window: Selected model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 14:23:57,317 INFO app.window: Opening model: C:\LocalAI\models\Qwen3.5-9B-Q4_K_M.gguf
+2026-10-28 14:23:58,502 INFO app.window: Generation started; prompt_tokens=72
+2026-10-28 14:23:59,043 INFO engine.native_quant: Inference kernel: project-owned native AVX2/FMA Q4_0 + Q8_0 + Q4_K + Q5_K + Q6_K (MSVC DLL)
+2026-10-28 14:24:09,637 INFO app.window: Generation finished; output_tokens=9; prefill_s=9.247; decode_s=1.888; decode_tok_s=4.768; total_tok_s=0.808
