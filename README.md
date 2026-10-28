@@ -62,6 +62,12 @@ Run from the repository root:
 
 Most unit tests use synthetic tensors or GGUF fixtures. They are useful for catching regressions but do not replace real-model quality and performance checks.
 
+## Test environment
+
+- **CPU:** Intel Core i3-12100F
+- **RAM:** 32 GB
+- **Inference device for the measurements below:** CPU
+
 ## Performance notes
 
 Short CPU measurements on an Intel i3-12100F with 32 GB RAM. Decode speed excludes prompt prefill; these figures are local smoke-test results, not standardized benchmarks.
