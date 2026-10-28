@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
 )
 
 from engine.gguf_parser import GGUFFile
+from engine.model_paths import default_models_dir
 from engine.session import InferenceSession
 
 
@@ -35,11 +36,26 @@ class _QtLogHandler(logging.Handler):
 def format_chat(messages, metadata):
     """Format the small supported chat subset for common instruct GGUFs."""
     template = str(metadata.get('tokenizer.chat_template', ''))
+    architecture = str(metadata.get('general.architecture', '')).lower()
+    is_zaya = architecture == 'zaya'
     is_qwen = '<|im_start|>' in template or str(metadata.get('tokenizer.ggml.pre', '')).startswith(('qwen2', 'qwen3', 'qwen35'))
     is_llama3 = '<|start_header_id|>' in template or 'llama-bpe' in str(metadata.get('tokenizer.ggml.pre', ''))
     if is_qwen:
-        qwen35 = str(metadata.get('tokenizer.ggml.pre', '')).startswith('qwen35') or '<think>' in template
+        qwen35 = (
+            architecture in {'qwen35', 'qwen3.5'}
+            or str(metadata.get('tokenizer.ggml.pre', '')).startswith('qwen35')
+        )
         prompt_messages = list(messages)
+        if is_zaya and not any(m.get('role') == 'system' for m in prompt_messages):
+            language = str(metadata.get('_localai_language', 'ru')).lower()
+            prompt_messages.insert(0, {
+                'role': 'system',
+                'content': (
+                    'Answer in English.'
+                    if language == 'en' else
+                    'Отвечай по-русски естественно и грамотно. Пиши связно, без повторов и выдуманных советов.'
+                ),
+            })
         if qwen35 and not any(m.get('role') == 'system' for m in prompt_messages):
             language = str(metadata.get('_localai_language', 'ru')).lower()
             prompt_messages.insert(0, {
@@ -59,6 +75,13 @@ def format_chat(messages, metadata):
         # directly instead of streaming hidden reasoning as chat text.
         if qwen35:
             return prompt + '<|im_start|>assistant\n<think>\n\n</think>\n\n'
+        if is_zaya:
+            # The model's own template starts with bos_token. GGUF sets
+            # add_bos_token=false because the template is responsible for it.
+            tokens = metadata.get('tokenizer.ggml.tokens', ())
+            bos_id = int(metadata.get('tokenizer.ggml.bos_token_id', 2))
+            bos_token = tokens[bos_id] if 0 <= bos_id < len(tokens) else '<bos>'
+            return bos_token + prompt + '<|im_start|>assistant\n<think>\n</think>\n\n'
         return prompt + '<|im_start|>assistant\n'
     if is_llama3:
         prompt = ''.join(f"<|start_header_id|>{m['role']}<|end_header_id|>\n\n{m['content'].strip()}<|eot_id|>" for m in messages)
@@ -99,7 +122,10 @@ class GenerationWorker(QObject):
             model = self.session.model
             english = self.settings.get('language', 'ru') == 'en'
             model_name = str(self.session.gguf.metadata.get('general.name', '')).lower()
-            ids = tokenizer.encode(self.prompt)
+            # ZAYA's official chat template explicitly emits bos_token, while
+            # this GGUF also marks add_bos_token=true. Avoid feeding BOS twice.
+            is_zaya = str(self.session.gguf.metadata.get('general.architecture', '')).lower() == 'zaya'
+            ids = tokenizer.encode(self.prompt, add_bos=False) if is_zaya else tokenizer.encode(self.prompt)
             self.status.emit(f'Prompt: {len(ids)} tokens' if english else f'Промпт: {len(ids)} токенов')
             generation_start = time.perf_counter()
             logging.getLogger(__name__).info('Generation started; prompt_tokens=%d', len(ids))
@@ -124,6 +150,12 @@ class GenerationWorker(QObject):
                 model.progress_callback = self.status.emit
             try:
                 generation_settings = {key: value for key, value in self.settings.items() if key != 'language'}
+                if str(self.session.gguf.metadata.get('general.architecture', '')).lower() == 'zaya':
+                    # The coder-tuned ZAYA checkpoint tends to loop at warmer
+                    # sampling settings on open-ended Russian prose. Use a
+                    # conservative profile by default; explicit UI temperature
+                    # and top-p choices are preserved by the caller.
+                    generation_settings.setdefault('repetition_penalty', 1.15)
                 if 'saiga_llama3_8b' in model_name:
                     # Match the known-good Saiga/KoboldCpp sampling profile.
                     # Very low temperature plus aggressive repetition penalty
@@ -385,7 +417,7 @@ class MainWindow(QMainWindow):
         if self.worker is not None:
             QMessageBox.information(self, 'Generation running', 'Stop the current generation before switching models.')
             return
-        start = str(Path(__file__).resolve().parents[1] / 'models')
+        start = str(default_models_dir(Path(__file__).resolve().parents[1]))
         path, _ = QFileDialog.getOpenFileName(self, 'Select GGUF model', start, 'GGUF models (*.gguf)')
         if path:
             resolved = str(Path(path).resolve())

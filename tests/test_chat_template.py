@@ -57,6 +57,19 @@ class ChatTemplateTests(unittest.TestCase):
         self.assertTrue(prompt.endswith('<|im_start|>assistant\n'))
         self.assertFalse(prompt.endswith('<think>\n'))
 
+    def test_zaya_closes_think_channel_for_user_facing_answer(self):
+        metadata = {
+            'general.architecture': 'zaya',
+            'tokenizer.chat_template': "{{ bos_token }}<|im_start|>assistant\\n<think>\\n",
+            'tokenizer.ggml.model': 'gemma4',
+        }
+        prompt = format_chat([{'role': 'user', 'content': 'Write a Python function.'}], metadata)
+        self.assertIn('<|im_start|>user\nWrite a Python function.<|im_end|>\n', prompt)
+        self.assertTrue(prompt.endswith('<|im_start|>assistant\n<think>\n</think>\n\n'))
+        self.assertNotIn('Отвечай исключительно на русском', prompt)
+        self.assertTrue(prompt.startswith('<bos><|im_start|>system\n'))
+        self.assertIn('Отвечай по-русски естественно и грамотно.', prompt)
+
 
 if __name__ == '__main__':
     unittest.main()

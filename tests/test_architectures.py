@@ -13,7 +13,7 @@ class ArchitectureRegistryTests(unittest.TestCase):
         self.assertIs(get_architecture('qwen3'), Qwen3Model)
         self.assertIs(get_architecture('qwen35'), Qwen35Model)
         self.assertIs(get_architecture('qwen3.5'), Qwen35Model)
-        self.assertEqual(registered_architectures(), ('llama', 'mistral', 'qwen2', 'qwen3', 'qwen3.5', 'qwen35'))
+        self.assertEqual(registered_architectures(), ('llama', 'mistral', 'qwen2', 'qwen3', 'qwen3.5', 'qwen35', 'zaya'))
 
     def test_unknown_architecture_does_not_fall_back_to_llama(self):
         with self.assertRaisesRegex(NotImplementedError, 'not implemented'):

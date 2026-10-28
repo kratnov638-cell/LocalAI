@@ -23,6 +23,7 @@ class BPETokenizer:
         self.bos=int(metadata.get('tokenizer.ggml.bos_token_id',1)); self.eos=int(metadata.get('tokenizer.ggml.eos_token_id',2))
         self.add_bos=bool(metadata.get('tokenizer.ggml.add_bos_token',False))
         self.pre=str(metadata.get('tokenizer.ggml.pre','default'))
+        self.model_type=str(metadata.get('tokenizer.ggml.model','')).lower()
         self._init_byte_alphabet()
         self.special_tokens = sorted(
             ((token, i) for i, token in enumerate(self.tokens)
@@ -50,7 +51,7 @@ class BPETokenizer:
     def _from_json(self,data):
         model=data.get('model',{}); vocab=model.get('vocab',{}); self.tokens=[None]*(max(vocab.values(),default=-1)+1)
         for s,i in vocab.items(): self.tokens[i]=s
-        self.vocab=vocab; self.ranks={tuple(m.split(' ',1)):i for i,m in enumerate(model.get('merges',[])) if ' ' in m}; self.bos=1; self.eos=2; self.add_bos=False; self.pre='default'; self._init_byte_alphabet()
+        self.vocab=vocab; self.ranks={tuple(m.split(' ',1)):i for i,m in enumerate(model.get('merges',[])) if ' ' in m}; self.bos=1; self.eos=2; self.add_bos=False; self.pre='default'; self.model_type=str(model.get('type','')).lower(); self._init_byte_alphabet()
         self.special_tokens=sorted(((token,i) for token,i in vocab.items() if token and token.startswith('<') and token.endswith('>')),key=lambda item:len(item[0]),reverse=True)
         self._special_set={token for token,_ in self.special_tokens}; self.stop_ids={self.eos}
         self.stop_ids.update(token_id for token, token_id in self.special_tokens
@@ -82,6 +83,17 @@ class BPETokenizer:
         return re.findall(pattern, text)
     def _encode_plain(self,text):
         ids=[]
+        # Gemma4 GGUF vocabularies are SentencePiece-style Unicode BPE: spaces
+        # are represented by U+2581 and token strings are not GPT-2 byte-alphabet
+        # encodings. Feeding them through byte_encoder silently creates wrong
+        # token IDs (or fails on perfectly ordinary input).
+        if self.model_type == 'gemma4':
+            normalized=text.replace(' ', '\u2581')
+            for token in self._bpe(normalized):
+                if token not in self.vocab:
+                    raise ValueError(f'Gemma4 tokenizer vocabulary lacks token {token!r}')
+                ids.append(self.vocab[token])
+            return ids
         for piece in self._pieces(text):
             encoded=''.join(self.byte_encoder[b] for b in piece.encode('utf-8'))
             for token in self._bpe(encoded):
@@ -101,6 +113,20 @@ class BPETokenizer:
             ids.extend(self._encode_plain(text))
         return ids
     def decode(self,ids):
+        if getattr(self, 'model_type', '') == 'gemma4':
+            pieces=[]
+            for idx in ids:
+                if not 0 <= int(idx) < len(self.tokens):
+                    continue
+                token=self.tokens[int(idx)] or ''
+                if token in self._special_set:
+                    # Preserve meaningful chat markers, but don't render the
+                    # ordinary BOS/EOS control tokens as user-facing text.
+                    if token not in {'<bos>', '<eos>', '<pad>', '<unk>'}:
+                        pieces.append(token)
+                else:
+                    pieces.append(token)
+            return ''.join(pieces).replace('\u2581', ' ')
         result=[]; byte_chars=[]
         def flush():
             if byte_chars:
@@ -126,6 +152,10 @@ class BPETokenizer:
         if not 0 <= int(token_id) < len(self.tokens):
             return ''
         token = self.tokens[int(token_id)] or ''
+        if getattr(self, 'model_type', '') == 'gemma4':
+            if token in {'<bos>', '<eos>', '<pad>', '<unk>'}:
+                return ''
+            return token.replace('\u2581', ' ')
         if token in self._special_set:
             tail = decoder.decode(b'', final=True)
             decoder.reset()

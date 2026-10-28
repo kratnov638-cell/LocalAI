@@ -54,6 +54,22 @@ class TokenizerTests(unittest.TestCase):
         })
         self.assertEqual(qwen35._pieces('Привет 123!'), self.tok._pieces('Привет 123!'))
 
+    def test_gemma4_uses_unicode_sentencepiece_bpe_not_gpt2_byte_encoding(self):
+        tokens = ['<pad>', '<bos>', '<eos>', '<unk>', 'hello', '\u2581world', '!']
+        merges = ['h e', 'he l', 'hel l', 'hell o', '\u2581 w', '\u2581w o', '\u2581wo r', '\u2581wor l', '\u2581worl d']
+        tok = BPETokenizer({
+            'tokenizer.ggml.tokens': tokens,
+            'tokenizer.ggml.merges': merges,
+            'tokenizer.ggml.model': 'gemma4',
+            'tokenizer.ggml.bos_token_id': 1,
+            'tokenizer.ggml.eos_token_id': 2,
+            'tokenizer.ggml.add_bos_token': False,
+        })
+        ids = tok.encode('hello world!')
+        self.assertEqual(ids, [tokens.index('hello'), tokens.index('\u2581world'), tokens.index('!')])
+        self.assertEqual(tok.decode(ids), 'hello world!')
+        self.assertEqual(''.join(tok.decode_token(i, None) for i in ids), 'hello world!')
+
 
 if __name__ == '__main__':
     unittest.main()

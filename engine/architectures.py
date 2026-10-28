@@ -9,6 +9,7 @@ from typing import Type
 
 from .model import LlamaModel, Qwen2Model, Qwen3Model
 from .qwen35 import Qwen35Model
+from .zaya import ZayaModel
 
 
 # Keep dispatch explicit: Mistral uses the dense Llama-style core for the
@@ -22,6 +23,7 @@ _ARCHITECTURES: dict[str, type] = {
     'qwen3': Qwen3Model,
     'qwen35': Qwen35Model,
     'qwen3.5': Qwen35Model,
+    'zaya': ZayaModel,
 }
 
 
