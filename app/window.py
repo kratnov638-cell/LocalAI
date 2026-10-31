@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
 from engine.gguf_parser import GGUFFile
 from engine.model_paths import default_models_dir
 from engine.session import InferenceSession
+from app.image_generation import ImageGenerationPage
 
 
 class _QtLogHandler(logging.Handler):
@@ -465,6 +466,12 @@ class MainWindow(QMainWindow):
         self.choose_background_action = QAction('Выбрать изображение…', self)
         self.choose_background_action.triggered.connect(self.choose_background)
         self.background_menu.addAction(self.choose_background_action)
+        self.settings_menu.addSeparator()
+        self.vulkan_future_action = QAction('AMD Vulkan (GPU + CPU)', self, checkable=True)
+        self.vulkan_future_action.setChecked(self.settings.value('image_vulkan_enabled', False, type=bool))
+        self.vulkan_future_action.toggled.connect(self.set_vulkan_enabled)
+        self.vulkan_future_action.setToolTip('Diffusion и VAE выполняются на AMD Vulkan; текстовые энкодеры — на CPU. Веса SDXL хранятся в RAM и подгружаются в VRAM по мере необходимости.')
+        self.settings_menu.addAction(self.vulkan_future_action)
         top_row.addWidget(self.menu_button, 0, Qt.AlignmentFlag.AlignLeft)
         top_row.addStretch(1)
         root_layout.addLayout(top_row)
@@ -519,6 +526,20 @@ class MainWindow(QMainWindow):
         settings.addWidget(self.stop_button); settings.addWidget(self.new_button)
         layout.addLayout(settings)
         self.tabs.addTab(chat_page, 'Chat')
+
+        self.image_page = ImageGenerationPage(self.settings, Path(__file__).resolve().parents[1])
+        vulkan_device = self.image_page.engine.vulkan_device()
+        self.vulkan_future_action.setEnabled(bool(vulkan_device))
+        if not vulkan_device:
+            self.vulkan_future_action.setChecked(False)
+            self.settings.setValue('image_vulkan_enabled', False)
+            self.vulkan_future_action.setToolTip(
+                'Vulkan backend не найден в stable-diffusion.cpp. Генерация остаётся на CPU.'
+            )
+        else:
+            self.vulkan_future_action.setToolTip(f'Доступно устройство: {vulkan_device}. Diffusion и VAE — GPU; текстовые энкодеры — CPU. Полное разделение одного diffusion-графа между CPU и GPU этой версией runtime не поддерживается.')
+        self.image_page.status_changed.connect(lambda message: self.status_label.setText(message))
+        self.tabs.addTab(self.image_page, 'Генерация изображений')
 
         self.log_view = QPlainTextEdit()
         self.log_view.setReadOnly(True)
@@ -588,6 +609,10 @@ class MainWindow(QMainWindow):
             action.setChecked(code == language)
         self.apply_language()
 
+    def set_vulkan_enabled(self, enabled):
+        """Persist the image-generation backend preference."""
+        self.settings.setValue('image_vulkan_enabled', bool(enabled))
+
     def apply_language(self):
         en = self.language == 'en'
         self.menu_button.setToolTip('Menu' if en else 'Меню')
@@ -602,7 +627,9 @@ class MainWindow(QMainWindow):
         self.input.setPlaceholderText('Message the local model…' if en else 'Напишите локальной модели…')
         self.send_button.setText('Send' if en else 'Отправить')
         self.tabs.setTabText(0, 'Chat' if en else 'Чат')
-        self.tabs.setTabText(1, 'Console / Logs' if en else 'Консоль / Логи')
+        self.tabs.setTabText(1, 'Image Generation' if en else 'Генерация изображений')
+        self.tabs.setTabText(2, 'Console / Logs' if en else 'Консоль / Логи')
+        self.vulkan_future_action.setText('AMD Vulkan (GPU + CPU)' if en else 'AMD Vulkan (GPU + CPU)')
         self.log_view.setPlaceholderText('Diagnostics, errors and generation status appear here.' if en else 'Здесь отображаются диагностика, ошибки и состояние генерации.')
         self.temperature_label.setText('Temperature' if en else 'Температура')
         self.top_p_label.setText('Top-p' if en else 'Top-p')
@@ -749,6 +776,8 @@ class MainWindow(QMainWindow):
         self.send_button.setEnabled(True)
 
     def closeEvent(self, event):
+        if hasattr(self, 'image_page'):
+            self.image_page.shutdown()
         if self.worker is not None and self.thread is not None and self.thread.isRunning():
             self.stop_event.set()
             self.thread.quit()

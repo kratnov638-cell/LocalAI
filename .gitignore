@@ -9,3 +9,4 @@ engine/native_quant.exp
 models/*.gguf
 models/*
 !models/.gitkeep
+generated_images/

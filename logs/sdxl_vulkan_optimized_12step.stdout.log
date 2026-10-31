@@ -1,0 +1,27 @@
+DEVICE: Vulkan0 Ч AMD Radeon RX 6400
+STATUS: «апуск stable-diffusion.cpp: diffusion и VAE Ч AMD Vulkan, текстовые энкодеры Ч CPUЕ
+STATUS: ggml_vulkan: Found 1 Vulkan devices:
+STATUS:   |###############                                   | 112/374 -   1.47GB/s[K
+STATUS: [I] clip build cached graph cut plan done (taking 1 ms) --- ggml_graph_cut.cpp:1034
+STATUS: [I] clip build cached graph cut plan done (taking 3 ms) --- ggml_graph_cut.cpp:1034
+STATUS:   |##################################################| 20/20 -  85.63MB/s[K
+STATUS:   |##########################################        | 184/220 -   2.57GB/s[K
+STATUS:   |#########################################         | 182/226 -   2.58GB/s[K
+STATUS:   |##########################################        | 179/218 -   2.59GB/s[K
+STATUS:   |#########################################         | 179/220 -   2.53GB/s[K
+STATUS:   |##################################################| 58/58 - 298.90MB/s[K
+STATUS:   |##################################################| 12/12 -  30.87MB/s[K
+STATUS:   |====>                                             |  1/12 -   9.70s/it - ETA 01:46[K
+STATUS:   |========>                                         |  2/12 -   4.05s/it - ETA 01:08[K
+STATUS:   |============>                                     |  3/12 -   3.58s/it - ETA 00:51[K
+STATUS:   |================>                                 |  4/12 -   4.00s/it - ETA 00:42[K
+STATUS:   |====================>                             |  5/12 -   4.08s/it - ETA 00:35[K
+STATUS:   |=========================>                        |  6/12 -   3.61s/it - ETA 00:29[K
+STATUS:   |=============================>                    |  7/12 -   4.06s/it - ETA 00:23[K
+STATUS:   |=================================>                |  8/12 -   4.06s/it - ETA 00:18[K
+STATUS:   |=====================================>            |  9/12 -   3.59s/it - ETA 00:13[K
+STATUS:   |=========================================>        | 10/12 -   4.01s/it - ETA 00:08[K
+STATUS:   |=============================================>    | 11/12 -   4.03s/it - ETA 00:04[K
+STATUS: [I] latent 1 decoded, taking 2.69s --- image.cpp:671
+STATUS: »зображение проверено: sdxl_vulkan_optimized_12step.png (528,842 байт)
+SUCCESS: C:\LocalAI\generated_images\sdxl_vulkan_optimized_12step.png 528842

@@ -1,0 +1,88 @@
+[I] loading model from 'C:\LLM\sd_xl_base_1.0.safetensors' --- diffusion_engine.cpp:685
+[I] load C:\LLM\sd_xl_base_1.0.safetensors using safetensors format --- model_loader.cpp:222
+[I] Version: SDXL  --- diffusion_engine.cpp:975
+[I] auto-fit plan: --- backend_fit.cpp:323
+[I]   devices: --- backend_fit.cpp:324
+[I]     Vulkan0      AMD Radeon RX 6400               free   3443 MiB, budget   3276 MiB --- backend_fit.cpp:328
+[I]     RAM          free  24617 MiB, params budget  22156 MiB --- backend_fit.cpp:334
+[I]   compute-device weight cache priority: diffusion > te > vae --- backend_fit.cpp:336
+[I]   components (params: compute device -> RAM -> other GPU -> disk): --- backend_fit.cpp:337
+[I]     DiT          params   4897 MiB, compute reserve  2048 MiB -> compute Vulkan0, params cpu --- backend_fit.cpp:348
+[I]     Conditioner  params   1559 MiB, compute reserve  2048 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+[I]     VAE          params    159 MiB, compute reserve  1024 MiB -> compute Vulkan0, params cpu --- backend_fit.cpp:348
+[I] auto-fit: --backend "diffusion=vulkan0,te=cpu,vae=vulkan0" --params-backend "diffusion=cpu,te=cpu,vae=cpu" --- backend_fit.cpp:477
+[I] Weight type stat:                      f16: 2515  --- diffusion_engine.cpp:1548
+[I] Conditioner weight type stat:          f16: 587   --- diffusion_engine.cpp:1549
+[I] Diffusion model weight type stat:      f16: 1680  --- diffusion_engine.cpp:1550
+[I] VAE weight type stat:                  f16: 248   --- diffusion_engine.cpp:1551
+[I] using VAE for encoding / decoding --- model_builders.cpp:210
+[I] vae decoder: ch = 128 --- auto_encoder_kl.hpp:529
+[W] No valid VAE specified with --vae or --force-sdxl-vae-conv-scale flag set, using Conv2D scale 0.031 --- sd.cpp:15
+[I] flash attention auto: CPU -> on (CPU) --- flash_attn.cpp:66
+[I] flash attention auto: Vulkan0 -> off (probe: normal 1.682 ms, flash 30.751 ms) --- flash_attn.cpp:95
+[W] conv2d direct auto: Vulkan0 -> off (probe output check failed) --- conv_direct.cpp:79
+[W] conv3d direct auto: Vulkan0 -> off (probe output check failed) --- conv_direct.cpp:79
+[I] total params memory size = 6624.11MB (VRAM 0.00MB, RAM 6624.11MB): text_encoders 1564.36MB(RAM), diffusion_model 4900.07MB(RAM), vae 159.68MB(RAM), controlnet 0.00MB(N/A), extensions 0.00MB(N/A) --- diffusion_engine.cpp:1438
+[I] running in eps-prediction mode --- diffusion_engine.cpp:1467
+[I] generate_image 512x512 --- image.cpp:869
+[I] get_sigmas with discrete scheduler --- denoiser.hpp:1129
+[I] sampling using Euler A method --- request.cpp:477
+[I] clip build cached graph cut plan done (taking 0 ms) --- ggml_graph_cut.cpp:1034
+  |##################################################| 178/178 -   1.06GB/s[K
+[I] loading tensors completed, taking 0.21s (read: 0.08s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+[I] clip build cached graph cut plan done (taking 1 ms) --- ggml_graph_cut.cpp:1034
+  |##################                                | 132/374 -   2.23GB/s[K  |###########################################       | 318/374 -   2.45GB/s[K  |##################################################| 374/374 -   1.98GB/s[K
+[I] loading tensors completed, taking 0.63s (read: 0.50s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+[I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+  |##################################################| 15/15 - 200.30MB/s[K
+[I] loading tensors completed, taking 0.20s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+[I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+[I] get_learned_condition completed, taking 4.57s --- image.cpp:580
+[I] generating image: 1/1 - seed 12345 --- image.cpp:920
+[I] unet build cached graph cut plan done (taking 8 ms) --- ggml_graph_cut.cpp:1034
+  |##################################################| 20/20 -  84.44MB/s[K
+[I] loading tensors completed, taking 0.23s (read: 0.01s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |##################################################| 10/10 -  21.08MB/s[K
+[I] loading tensors completed, taking 0.20s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |##################################################| 60/60 - 250.00MB/s[K
+[I] loading tensors completed, taking 0.23s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |##################################################| 56/56 - 262.40MB/s[K
+[I] loading tensors completed, taking 0.22s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |###########################################       | 188/220 -   2.62GB/s[K  |##################################################| 220/220 -   1.63GB/s[K
+[I] loading tensors completed, taking 0.44s (read: 0.25s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |##########################################        | 180/216 -   2.59GB/s[K  |##################################################| 216/216 -   1.64GB/s[K
+[I] loading tensors completed, taking 0.44s (read: 0.26s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |####################################              | 160/226 -   2.25GB/s[K  |##################################################| 226/226 -   1.83GB/s[K
+[I] loading tensors completed, taking 0.42s (read: 0.32s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |######################################            | 164/218 -   2.55GB/s[K  |##################################################| 218/218 -   1.75GB/s[K
+[I] loading tensors completed, taking 0.43s (read: 0.27s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |#######################################           | 166/218 -   2.53GB/s[K  |##################################################| 218/218 -   1.72GB/s[K
+[I] loading tensors completed, taking 0.44s (read: 0.28s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |########################################          | 172/220 -   2.59GB/s[K  |##################################################| 220/220 -   1.78GB/s[K
+[I] loading tensors completed, taking 0.43s (read: 0.27s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |##################################################| 58/58 - 336.99MB/s[K
+[I] loading tensors completed, taking 0.22s (read: 0.03s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |##################################################| 58/58 - 304.59MB/s[K
+[I] loading tensors completed, taking 0.22s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |##################################################| 60/60 - 319.48MB/s[K
+[I] loading tensors completed, taking 0.21s (read: 0.03s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |##################################################| 12/12 -  40.22MB/s[K
+[I] loading tensors completed, taking 0.22s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |##################################################| 12/12 -  31.17MB/s[K
+[I] loading tensors completed, taking 0.22s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |##################################################| 12/12 -  29.87MB/s[K
+[I] loading tensors completed, taking 0.23s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |##################################################| 4/4 -   1.29MB/s[K
+[I] loading tensors completed, taking 0.02s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+  |============>                                     | 1/4 -  10.00s/it - ETA 00:29[K  |=========================>                        | 2/4 -   4.09s/it - ETA 00:14[K  |=====================================>            | 3/4 -   3.58s/it - ETA 00:05[K  |==================================================| 4/4 -   4.00s/it[K
+[I] sampling completed, taking 21.71s --- image.cpp:953
+[I] generating 1 latent images completed, taking 21.71s --- image.cpp:967
+[I] decoding 1 latents --- image.cpp:605
+[I] vae build cached graph cut plan done (taking 0 ms) --- ggml_graph_cut.cpp:1034
+  |##################################################| 140/140 - 437.01MB/s[K
+[I] loading tensors completed, taking 0.22s (read: 0.04s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+[I] latent 1 decoded, taking 2.67s --- image.cpp:671
+[I] decode_first_stage completed, taking 2.68s --- image.cpp:675
+[I] generate_image completed in 28.97s --- image.cpp:1140
+[I] save result image 0 to 'C:\LocalAI\generated_images\sdxl_vulkan_vae_gpu_test.png' (success) --- main.cpp:495
+[I] 1/1 images saved --- main.cpp:571

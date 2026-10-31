@@ -486,3 +486,714 @@ NotImplementedError: GGUF architecture 'zaya' is not implemented by this engine.
 2026-10-28 20:31:37,770 INFO app.window: Opening model: C:\LLM\model-q4_K.gguf
 2026-10-28 20:31:38,736 INFO app.window: Generation started; prompt_tokens=104
 2026-10-28 20:33:00,409 INFO app.window: Generation finished; output_tokens=256; prefill_s=10.510; decode_s=71.162; decode_tok_s=3.597; total_tok_s=3.134
+2026-10-28 21:21:01,324 ERROR app.image_generation: Image generation failed
+Traceback (most recent call last):
+  File "C:\LocalAI\app\image_generation.py", line 43, in run
+    self.engine.generate(
+    ~~~~~~~~~~~~~~~~~~~~^
+        self.model_path, self.prompt, self.output_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        progress=self.status.emit, cancelled=self.stop_event.is_set,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        **self.options,
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\LocalAI\engine\generative\engine.py", line 139, in generate
+    raise GenerativeModelError(
+    ...<4 lines>...
+    )
+engine.generative.engine.GenerativeModelError: Не найдены обязательные компоненты SDXL: CLIP-L, CLIP-G и VAE. Поместите совместимые файлы в каталог модели либо задайте переменные LOCALAI_SDXL_CLIP_L, LOCALAI_SDXL_CLIP_G и LOCALAI_SDXL_VAE. Весовые файлы не скачиваются автоматически.
+2026-10-28 22:52:29,659 INFO engine.generative.engine: SDXL command: C:\LocalAI\engine\generative\bin\sd-cli.exe --mode img_gen --model C:\LLM\sd_xl_base_1.0.safetensors --backend cpu --threads 8 --rng cpu --prompt "Кот на диване" --negative-prompt "" --width 512 --height 512 --steps 20 --seed 42 --output C:\LocalAI\generated_images\image_20261028_225229_010500.png
+2026-10-28 22:52:29,939 INFO engine.generative.engine: sd-cli: load_backend: loaded CPU backend from C:\LocalAI\engine\generative\bin\ggml-cpu-haswell.dll
+2026-10-28 22:52:29,940 INFO engine.generative.engine: sd-cli: [I] loading model from 'C:\LLM\sd_xl_base_1.0.safetensors' --- diffusion_engine.cpp:685
+2026-10-28 22:52:29,947 INFO engine.generative.engine: sd-cli: [I] load C:\LLM\sd_xl_base_1.0.safetensors using safetensors format --- model_loader.cpp:222
+2026-10-28 22:52:29,982 INFO engine.generative.engine: sd-cli: [I] Version: SDXL  --- diffusion_engine.cpp:975
+2026-10-28 22:52:29,982 INFO engine.generative.engine: sd-cli: [I] auto-fit plan: --- backend_fit.cpp:323
+2026-10-28 22:52:29,982 INFO engine.generative.engine: sd-cli: [I]   devices: --- backend_fit.cpp:324
+2026-10-28 22:52:29,982 INFO engine.generative.engine: sd-cli: [I]     RAM          free  23958 MiB, params budget  21562 MiB --- backend_fit.cpp:334
+2026-10-28 22:52:29,983 INFO engine.generative.engine: sd-cli: [I]   compute-device weight cache priority: diffusion > te > vae --- backend_fit.cpp:336
+2026-10-28 22:52:29,983 INFO engine.generative.engine: sd-cli: [I]   components (params: compute device -> RAM -> other GPU -> disk): --- backend_fit.cpp:337
+2026-10-28 22:52:29,983 INFO engine.generative.engine: sd-cli: [I]     DiT          params   4897 MiB, compute reserve  2048 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-28 22:52:29,983 INFO engine.generative.engine: sd-cli: [I]     Conditioner  params   1559 MiB, compute reserve  2048 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-28 22:52:29,983 INFO engine.generative.engine: sd-cli: [I]     VAE          params    159 MiB, compute reserve  1024 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-28 22:52:29,983 INFO engine.generative.engine: sd-cli: [I] auto-fit: --backend "cpu" --params-backend "diffusion=cpu,te=cpu,vae=cpu" --- backend_fit.cpp:477
+2026-10-28 22:52:29,993 INFO engine.generative.engine: sd-cli: [I] Weight type stat:                      f16: 2515  --- diffusion_engine.cpp:1548
+2026-10-28 22:52:29,993 INFO engine.generative.engine: sd-cli: [I] Conditioner weight type stat:          f16: 587   --- diffusion_engine.cpp:1549
+2026-10-28 22:52:29,994 INFO engine.generative.engine: sd-cli: [I] Diffusion model weight type stat:      f16: 1680  --- diffusion_engine.cpp:1550
+2026-10-28 22:52:29,994 INFO engine.generative.engine: sd-cli: [I] VAE weight type stat:                  f16: 248   --- diffusion_engine.cpp:1551
+2026-10-28 22:52:30,081 INFO engine.generative.engine: sd-cli: [I] using VAE for encoding / decoding --- model_builders.cpp:210
+2026-10-28 22:52:30,081 INFO engine.generative.engine: sd-cli: [I] vae decoder: ch = 128 --- auto_encoder_kl.hpp:529
+2026-10-28 22:52:30,081 INFO engine.generative.engine: sd-cli: [W] No valid VAE specified with --vae or --force-sdxl-vae-conv-scale flag set, using Conv2D scale 0.031 --- sd.cpp:15
+2026-10-28 22:52:30,082 INFO engine.generative.engine: sd-cli: [I] flash attention auto: CPU -> on (CPU) --- flash_attn.cpp:66
+2026-10-28 22:52:30,082 INFO engine.generative.engine: sd-cli: [I] conv2d direct auto: CPU -> off (no implicit GEMM path) --- conv_direct.cpp:90
+2026-10-28 22:52:30,082 INFO engine.generative.engine: sd-cli: [I] conv3d direct auto: CPU -> off (no implicit GEMM path) --- conv_direct.cpp:90
+2026-10-28 22:52:30,082 INFO engine.generative.engine: sd-cli: [I] total params memory size = 6624.11MB (VRAM 0.00MB, RAM 6624.11MB): text_encoders 1564.36MB(RAM), diffusion_model 4900.07MB(RAM), vae 159.68MB(RAM), controlnet 0.00MB(N/A), extensions 0.00MB(N/A) --- diffusion_engine.cpp:1438
+2026-10-28 22:52:30,082 INFO engine.generative.engine: sd-cli: [I] running in eps-prediction mode --- diffusion_engine.cpp:1467
+2026-10-28 22:52:30,085 INFO engine.generative.engine: sd-cli: [I] generate_image 512x512 --- image.cpp:869
+2026-10-28 22:52:30,096 INFO engine.generative.engine: sd-cli: [I] get_sigmas with discrete scheduler --- denoiser.hpp:1129
+2026-10-28 22:52:30,096 INFO engine.generative.engine: sd-cli: [I] sampling using Euler A method --- request.cpp:477
+2026-10-28 22:52:30,101 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 1 ms) --- ggml_graph_cut.cpp:1034
+2026-10-28 22:52:30,308 INFO engine.generative.engine: sd-cli:   |##################################################| 178/178 -   1.05GB/s[K
+2026-10-28 22:52:30,308 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.20s (read: 0.07s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-28 22:52:30,396 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 3 ms) --- ggml_graph_cut.cpp:1034
+2026-10-28 22:52:30,815 INFO engine.generative.engine: sd-cli:   |#########################                         | 186/374 -   2.39GB/s[K
+2026-10-28 22:52:30,815 INFO engine.generative.engine: sd-cli:   |##################################################| 374/374 -   3.01GB/s[K
+2026-10-28 22:52:30,816 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.40s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-28 22:52:31,451 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-28 22:52:31,668 INFO engine.generative.engine: sd-cli:   |##################################################| 15/15 - 190.01MB/s[K
+2026-10-28 22:52:31,669 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.01s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-28 22:52:32,997 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 3 ms) --- ggml_graph_cut.cpp:1034
+2026-10-28 22:52:33,624 INFO engine.generative.engine: sd-cli: [I] get_learned_condition completed, taking 3.53s --- image.cpp:580
+2026-10-28 22:52:33,625 INFO engine.generative.engine: sd-cli: [I] generating image: 1/1 - seed 42 --- image.cpp:920
+2026-10-28 22:52:33,640 INFO engine.generative.engine: sd-cli: [I] unet build cached graph cut plan done (taking 10 ms) --- ggml_graph_cut.cpp:1034
+2026-10-28 22:52:34,061 INFO engine.generative.engine: sd-cli:   |#########                                         |  301/1680 -   2.52GB/s[K
+2026-10-28 22:52:34,267 INFO engine.generative.engine: sd-cli:   |###############                                   |  478/1680 -   2.70GB/s[K
+2026-10-28 22:52:34,469 INFO engine.generative.engine: sd-cli:   |####################                              |  660/1680 -   2.79GB/s[K
+2026-10-28 22:52:34,673 INFO engine.generative.engine: sd-cli:   |#########################                         |  832/1680 -   2.75GB/s[K
+2026-10-28 22:52:34,877 INFO engine.generative.engine: sd-cli:   |###############################                   | 1010/1680 -   2.83GB/s[K
+2026-10-28 22:52:35,081 INFO engine.generative.engine: sd-cli:   |####################################              | 1187/1680 -   2.85GB/s[K
+2026-10-28 22:52:35,287 INFO engine.generative.engine: sd-cli:   |########################################          | 1328/1680 -   2.78GB/s[K
+2026-10-28 22:52:35,492 INFO engine.generative.engine: sd-cli:   |##############################################    | 1540/1680 -   2.78GB/s[K
+2026-10-28 22:52:35,492 INFO engine.generative.engine: sd-cli:   |##################################################| 1680/1680 -   2.60GB/s[K
+2026-10-28 22:52:35,494 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 1.84s (read: 1.69s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-28 22:53:16,488 INFO engine.generative.engine: sd-cli:   |==>                                               |  1/20 -  22.21s/it - ETA 07:02[K
+2026-10-28 22:53:36,751 INFO engine.generative.engine: sd-cli:   |=====>                                            |  2/20 -  20.65s/it - ETA 06:25[K
+2026-10-28 22:53:56,978 INFO engine.generative.engine: sd-cli:   |=======>                                          |  3/20 -  20.26s/it - ETA 05:57[K
+2026-10-28 22:54:17,214 INFO engine.generative.engine: sd-cli:   |==========>                                       |  4/20 -  20.23s/it - ETA 05:33[K
+2026-10-28 22:54:38,472 INFO engine.generative.engine: sd-cli:   |============>                                     |  5/20 -  20.24s/it - ETA 05:10[K
+2026-10-28 22:54:59,625 INFO engine.generative.engine: sd-cli:   |===============>                                  |  6/20 -  21.26s/it - ETA 04:51[K
+2026-10-28 22:55:19,825 INFO engine.generative.engine: sd-cli:   |=================>                                |  7/20 -  21.15s/it - ETA 04:31[K
+2026-10-28 22:55:39,756 INFO engine.generative.engine: sd-cli:   |====================>                             |  8/20 -  20.20s/it - ETA 04:09[K
+2026-10-28 22:55:59,710 INFO engine.generative.engine: sd-cli:   |======================>                           |  9/20 -  19.93s/it - ETA 03:47[K
+2026-10-28 22:56:19,650 INFO engine.generative.engine: sd-cli:   |=========================>                        | 10/20 -  19.95s/it - ETA 03:26[K
+2026-10-28 22:56:39,556 INFO engine.generative.engine: sd-cli:   |===========================>                      | 11/20 -  19.94s/it - ETA 03:04[K
+2026-10-28 22:56:59,471 INFO engine.generative.engine: sd-cli:   |==============================>                   | 12/20 -  19.91s/it - ETA 02:43[K
+2026-10-28 22:57:19,433 INFO engine.generative.engine: sd-cli:   |================================>                 | 13/20 -  19.91s/it - ETA 02:23[K
+2026-10-28 22:57:39,361 INFO engine.generative.engine: sd-cli:   |===================================>              | 14/20 -  19.96s/it - ETA 02:02[K
+2026-10-28 22:57:59,209 INFO engine.generative.engine: sd-cli:   |=====================================>            | 15/20 -  19.93s/it - ETA 01:41[K
+2026-10-28 22:58:19,176 INFO engine.generative.engine: sd-cli:   |========================================>         | 16/20 -  19.85s/it - ETA 01:21[K
+2026-10-28 22:58:39,268 INFO engine.generative.engine: sd-cli:   |==========================================>       | 17/20 -  19.97s/it - ETA 01:00[K
+2026-10-28 22:58:59,262 INFO engine.generative.engine: sd-cli:   |=============================================>    | 18/20 -  20.09s/it - ETA 00:40[K
+2026-10-28 22:59:19,296 INFO engine.generative.engine: sd-cli:   |===============================================>  | 19/20 -  19.99s/it - ETA 00:20[K
+2026-10-28 22:59:19,296 INFO engine.generative.engine: sd-cli:   |==================================================| 20/20 -  20.03s/it[K
+2026-10-28 22:59:19,313 INFO engine.generative.engine: sd-cli: [I] sampling completed, taking 405.69s --- image.cpp:953
+2026-10-28 22:59:19,314 INFO engine.generative.engine: sd-cli: [I] generating 1 latent images completed, taking 405.69s --- image.cpp:967
+2026-10-28 22:59:19,314 INFO engine.generative.engine: sd-cli: [I] decoding 1 latents --- image.cpp:605
+2026-10-28 22:59:19,314 INFO engine.generative.engine: sd-cli: [I] vae build cached graph cut plan done (taking 0 ms) --- ggml_graph_cut.cpp:1034
+2026-10-28 22:59:19,534 INFO engine.generative.engine: sd-cli:   |##################################################| 140/140 - 433.00MB/s[K
+2026-10-28 22:59:19,534 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.03s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-28 22:59:38,655 INFO engine.generative.engine: sd-cli: [I] latent 1 decoded, taking 19.34s --- image.cpp:671
+2026-10-28 22:59:38,655 INFO engine.generative.engine: sd-cli: [I] decode_first_stage completed, taking 19.34s --- image.cpp:675
+2026-10-28 22:59:38,656 INFO engine.generative.engine: sd-cli: [I] generate_image completed in 428.57s --- image.cpp:1140
+2026-10-28 22:59:39,110 INFO engine.generative.engine: sd-cli: [I] save result image 0 to 'C:\LocalAI\generated_images\image_20261028_225229_010500.png' (success) --- main.cpp:495
+2026-10-28 22:59:39,110 INFO engine.generative.engine: sd-cli: [I] 1/1 images saved --- main.cpp:571
+2026-10-31 18:05:28,392 INFO engine.generative.engine: SDXL command: C:\LocalAI\engine\generative\bin\sd-cli.exe --mode img_gen --model C:\LLM\sd_xl_base_1.0.safetensors --backend cpu --threads 8 --rng cpu --prompt-file C:\LocalAI\generated_images\localai-57w0h9bl.prompt.txt --negative-prompt-file C:\LocalAI\generated_images\localai-c9kfpl0t.negative-prompt.txt --width 1024 --height 1024 --steps 20 --seed -1 --output C:\LocalAI\generated_images\image_20261031_180528_164900.png
+2026-10-31 18:05:28,547 INFO engine.generative.engine: sd-cli: load_backend: loaded CPU backend from C:\LocalAI\engine\generative\bin\ggml-cpu-haswell.dll
+2026-10-31 18:05:28,547 INFO engine.generative.engine: sd-cli: [I] loading model from 'C:\LLM\sd_xl_base_1.0.safetensors' --- diffusion_engine.cpp:685
+2026-10-31 18:05:28,555 INFO engine.generative.engine: sd-cli: [I] load C:\LLM\sd_xl_base_1.0.safetensors using safetensors format --- model_loader.cpp:222
+2026-10-31 18:05:28,589 INFO engine.generative.engine: sd-cli: [I] Version: SDXL  --- diffusion_engine.cpp:975
+2026-10-31 18:05:28,589 INFO engine.generative.engine: sd-cli: [I] auto-fit plan: --- backend_fit.cpp:323
+2026-10-31 18:05:28,589 INFO engine.generative.engine: sd-cli: [I]   devices: --- backend_fit.cpp:324
+2026-10-31 18:05:28,589 INFO engine.generative.engine: sd-cli: [I]     RAM          free  23918 MiB, params budget  21526 MiB --- backend_fit.cpp:334
+2026-10-31 18:05:28,589 INFO engine.generative.engine: sd-cli: [I]   compute-device weight cache priority: diffusion > te > vae --- backend_fit.cpp:336
+2026-10-31 18:05:28,589 INFO engine.generative.engine: sd-cli: [I]   components (params: compute device -> RAM -> other GPU -> disk): --- backend_fit.cpp:337
+2026-10-31 18:05:28,590 INFO engine.generative.engine: sd-cli: [I]     DiT          params   4897 MiB, compute reserve  2048 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-31 18:05:28,590 INFO engine.generative.engine: sd-cli: [I]     Conditioner  params   1559 MiB, compute reserve  2048 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-31 18:05:28,590 INFO engine.generative.engine: sd-cli: [I]     VAE          params    159 MiB, compute reserve  1024 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-31 18:05:28,590 INFO engine.generative.engine: sd-cli: [I] auto-fit: --backend "cpu" --params-backend "diffusion=cpu,te=cpu,vae=cpu" --- backend_fit.cpp:477
+2026-10-31 18:05:28,600 INFO engine.generative.engine: sd-cli: [I] Weight type stat:                      f16: 2515  --- diffusion_engine.cpp:1548
+2026-10-31 18:05:28,601 INFO engine.generative.engine: sd-cli: [I] Conditioner weight type stat:          f16: 587   --- diffusion_engine.cpp:1549
+2026-10-31 18:05:28,601 INFO engine.generative.engine: sd-cli: [I] Diffusion model weight type stat:      f16: 1680  --- diffusion_engine.cpp:1550
+2026-10-31 18:05:28,601 INFO engine.generative.engine: sd-cli: [I] VAE weight type stat:                  f16: 248   --- diffusion_engine.cpp:1551
+2026-10-31 18:05:28,691 INFO engine.generative.engine: sd-cli: [I] using VAE for encoding / decoding --- model_builders.cpp:210
+2026-10-31 18:05:28,691 INFO engine.generative.engine: sd-cli: [I] vae decoder: ch = 128 --- auto_encoder_kl.hpp:529
+2026-10-31 18:05:28,692 INFO engine.generative.engine: sd-cli: [W] No valid VAE specified with --vae or --force-sdxl-vae-conv-scale flag set, using Conv2D scale 0.031 --- sd.cpp:15
+2026-10-31 18:05:28,692 INFO engine.generative.engine: sd-cli: [I] flash attention auto: CPU -> on (CPU) --- flash_attn.cpp:66
+2026-10-31 18:05:28,692 INFO engine.generative.engine: sd-cli: [I] conv2d direct auto: CPU -> off (no implicit GEMM path) --- conv_direct.cpp:90
+2026-10-31 18:05:28,693 INFO engine.generative.engine: sd-cli: [I] conv3d direct auto: CPU -> off (no implicit GEMM path) --- conv_direct.cpp:90
+2026-10-31 18:05:28,693 INFO engine.generative.engine: sd-cli: [I] total params memory size = 6624.11MB (VRAM 0.00MB, RAM 6624.11MB): text_encoders 1564.36MB(RAM), diffusion_model 4900.07MB(RAM), vae 159.68MB(RAM), controlnet 0.00MB(N/A), extensions 0.00MB(N/A) --- diffusion_engine.cpp:1438
+2026-10-31 18:05:28,693 INFO engine.generative.engine: sd-cli: [I] running in eps-prediction mode --- diffusion_engine.cpp:1467
+2026-10-31 18:05:28,696 INFO engine.generative.engine: sd-cli: [I] generate_image 1024x1024 --- image.cpp:869
+2026-10-31 18:05:28,707 INFO engine.generative.engine: sd-cli: [I] get_sigmas with discrete scheduler --- denoiser.hpp:1129
+2026-10-31 18:05:28,707 INFO engine.generative.engine: sd-cli: [I] sampling using Euler A method --- request.cpp:477
+2026-10-31 18:05:28,722 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 1 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 18:05:28,933 INFO engine.generative.engine: sd-cli:   |##################################################| 178/178 -   1.03GB/s[K
+2026-10-31 18:05:28,933 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.07s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 18:05:29,029 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 18:05:29,449 INFO engine.generative.engine: sd-cli:   |############################                      | 206/374 -   2.54GB/s[K
+2026-10-31 18:05:29,449 INFO engine.generative.engine: sd-cli:   |##################################################| 374/374 -   3.01GB/s[K
+2026-10-31 18:05:29,450 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.39s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 18:05:30,062 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 18:05:30,272 INFO engine.generative.engine: sd-cli:   |##################################################| 15/15 - 196.43MB/s[K
+2026-10-31 18:05:30,273 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.01s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 18:05:31,657 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 3 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 18:05:32,284 INFO engine.generative.engine: sd-cli: [I] get_learned_condition completed, taking 3.57s --- image.cpp:580
+2026-10-31 18:05:32,285 INFO engine.generative.engine: sd-cli: [I] generating image: 1/1 - seed 25497 --- image.cpp:920
+2026-10-31 18:05:32,300 INFO engine.generative.engine: sd-cli: [I] unet build cached graph cut plan done (taking 8 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 18:05:32,725 INFO engine.generative.engine: sd-cli:   |##########                                        |  306/1680 -   2.56GB/s[K
+2026-10-31 18:05:32,939 INFO engine.generative.engine: sd-cli:   |###############                                   |  488/1680 -   2.79GB/s[K
+2026-10-31 18:05:33,144 INFO engine.generative.engine: sd-cli:   |#####################                             |  683/1680 -   2.84GB/s[K
+2026-10-31 18:05:33,359 INFO engine.generative.engine: sd-cli:   |##########################                        |  856/1680 -   2.83GB/s[K
+2026-10-31 18:05:33,560 INFO engine.generative.engine: sd-cli:   |################################                  | 1050/1680 -   2.88GB/s[K
+2026-10-31 18:05:33,763 INFO engine.generative.engine: sd-cli:   |#####################################             | 1227/1680 -   2.90GB/s[K
+2026-10-31 18:05:33,978 INFO engine.generative.engine: sd-cli:   |##########################################        | 1405/1680 -   2.91GB/s[K
+2026-10-31 18:05:33,978 INFO engine.generative.engine: sd-cli:   |##################################################| 1680/1680 -   2.86GB/s[K
+2026-10-31 18:05:33,979 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 1.67s (read: 1.62s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 18:08:24,557 INFO engine.generative.engine: sd-cli:   |==>                                               |  1/20 -  85.09s/it - ETA 26:56[K
+2026-10-31 18:09:52,425 INFO engine.generative.engine: sd-cli:   |=====>                                            |  2/20 -  87.18s/it - ETA 25:50[K
+2026-10-31 18:11:16,097 INFO engine.generative.engine: sd-cli:   |=======>                                          |  3/20 -  87.87s/it - ETA 24:34[K
+2026-10-31 18:12:38,383 INFO engine.generative.engine: sd-cli:   |==========>                                       |  4/20 -  83.67s/it - ETA 22:55[K
+2026-10-31 18:14:09,209 INFO engine.generative.engine: sd-cli:   |============>                                     |  5/20 -  82.29s/it - ETA 21:18[K
+2026-10-31 18:15:37,500 INFO engine.generative.engine: sd-cli:   |===============>                                  |  6/20 -  90.83s/it - ETA 20:06[K
+2026-10-31 18:16:59,486 INFO engine.generative.engine: sd-cli:   |=================>                                |  7/20 -  88.29s/it - ETA 18:43[K
+2026-10-31 18:18:22,699 INFO engine.generative.engine: sd-cli:   |====================>                             |  8/20 -  81.99s/it - ETA 17:10[K
+2026-10-31 18:19:45,758 INFO engine.generative.engine: sd-cli:   |======================>                           |  9/20 -  83.21s/it - ETA 15:41[K
+2026-10-31 18:21:08,941 INFO engine.generative.engine: sd-cli:   |=========================>                        | 10/20 -  83.06s/it - ETA 14:13[K
+2026-10-31 18:22:31,645 INFO engine.generative.engine: sd-cli:   |===========================>                      | 11/20 -  83.18s/it - ETA 12:46[K
+2026-10-31 18:23:54,375 INFO engine.generative.engine: sd-cli:   |==============================>                   | 12/20 -  82.70s/it - ETA 11:19[K
+2026-10-31 18:25:16,719 INFO engine.generative.engine: sd-cli:   |================================>                 | 13/20 -  82.73s/it - ETA 09:53[K
+2026-10-31 18:26:40,773 INFO engine.generative.engine: sd-cli:   |===================================>              | 14/20 -  82.34s/it - ETA 08:27[K
+2026-10-31 18:28:03,019 INFO engine.generative.engine: sd-cli:   |=====================================>            | 15/20 -  84.05s/it - ETA 07:02[K
+2026-10-31 18:29:25,955 INFO engine.generative.engine: sd-cli:   |========================================>         | 16/20 -  82.25s/it - ETA 05:37[K
+2026-10-31 18:30:49,135 INFO engine.generative.engine: sd-cli:   |==========================================>       | 17/20 -  82.94s/it - ETA 04:13[K
+2026-10-31 18:32:13,020 INFO engine.generative.engine: sd-cli:   |=============================================>    | 18/20 -  83.18s/it - ETA 02:48[K
+2026-10-31 18:33:35,985 INFO engine.generative.engine: sd-cli:   |===============================================>  | 19/20 -  83.88s/it - ETA 01:24[K
+2026-10-31 18:33:35,985 INFO engine.generative.engine: sd-cli:   |==================================================| 20/20 -  82.97s/it[K
+2026-10-31 18:33:36,054 INFO engine.generative.engine: sd-cli: [I] sampling completed, taking 1683.77s --- image.cpp:953
+2026-10-31 18:33:36,054 INFO engine.generative.engine: sd-cli: [I] generating 1 latent images completed, taking 1683.77s --- image.cpp:967
+2026-10-31 18:33:36,054 INFO engine.generative.engine: sd-cli: [I] decoding 1 latents --- image.cpp:605
+2026-10-31 18:33:36,055 INFO engine.generative.engine: sd-cli: [I] vae build cached graph cut plan done (taking 1 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 18:33:36,267 INFO engine.generative.engine: sd-cli:   |##################################################| 140/140 - 447.37MB/s[K
+2026-10-31 18:33:36,267 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.03s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 18:34:53,758 INFO engine.generative.engine: sd-cli: [I] latent 1 decoded, taking 77.70s --- image.cpp:671
+2026-10-31 18:34:53,758 INFO engine.generative.engine: sd-cli: [I] decode_first_stage completed, taking 77.70s --- image.cpp:675
+2026-10-31 18:34:53,762 INFO engine.generative.engine: sd-cli: [I] generate_image completed in 1765.07s --- image.cpp:1140
+2026-10-31 18:34:54,206 INFO engine.generative.engine: sd-cli: [I] save result image 0 to 'C:\LocalAI\generated_images\image_20261031_180528_164900.png' (success) --- main.cpp:495
+2026-10-31 18:34:54,206 INFO engine.generative.engine: sd-cli: [I] 1/1 images saved --- main.cpp:571
+2026-10-31 19:16:54,599 INFO engine.generative.engine: SDXL command: C:\LocalAI\engine\generative\bin\sd-cli.exe --mode img_gen --model C:\LLM\sd_xl_base_1.0.safetensors --backend cpu --threads 8 --rng cpu --prompt-file C:\LocalAI\generated_images\localai-1_3ej10l.prompt.txt --negative-prompt-file C:\LocalAI\generated_images\localai-kru027rt.negative-prompt.txt --width 1024 --height 1024 --steps 20 --seed -1 --output C:\LocalAI\generated_images\image_20261031_191654_276000.png
+2026-10-31 19:16:54,668 INFO engine.generative.engine: sd-cli: ggml_vulkan: Found 1 Vulkan devices:
+2026-10-31 19:16:54,668 INFO engine.generative.engine: sd-cli: ggml_vulkan: 0 = AMD Radeon RX 6400 (AMD proprietary driver) | uma: 0 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 32768 | int dot: 1 | matrix cores: none
+2026-10-31 19:16:54,668 INFO engine.generative.engine: sd-cli: load_backend: loaded Vulkan backend from C:\LocalAI\engine\generative\bin\ggml-vulkan.dll
+2026-10-31 19:16:54,681 INFO engine.generative.engine: sd-cli: load_backend: loaded CPU backend from C:\LocalAI\engine\generative\bin\ggml-cpu-haswell.dll
+2026-10-31 19:16:54,681 INFO engine.generative.engine: sd-cli: [I] loading model from 'C:\LLM\sd_xl_base_1.0.safetensors' --- diffusion_engine.cpp:685
+2026-10-31 19:16:54,687 INFO engine.generative.engine: sd-cli: [I] load C:\LLM\sd_xl_base_1.0.safetensors using safetensors format --- model_loader.cpp:222
+2026-10-31 19:16:54,720 INFO engine.generative.engine: sd-cli: [I] Version: SDXL  --- diffusion_engine.cpp:975
+2026-10-31 19:16:54,720 INFO engine.generative.engine: sd-cli: [I] auto-fit plan: --- backend_fit.cpp:323
+2026-10-31 19:16:54,721 INFO engine.generative.engine: sd-cli: [I]   devices: --- backend_fit.cpp:324
+2026-10-31 19:16:54,721 INFO engine.generative.engine: sd-cli: [I]     Vulkan0      AMD Radeon RX 6400               free   3443 MiB, budget   2931 MiB --- backend_fit.cpp:328
+2026-10-31 19:16:54,721 INFO engine.generative.engine: sd-cli: [I]     RAM          free  23715 MiB, params budget  21343 MiB --- backend_fit.cpp:334
+2026-10-31 19:16:54,721 INFO engine.generative.engine: sd-cli: [I]   compute-device weight cache priority: diffusion > te > vae --- backend_fit.cpp:336
+2026-10-31 19:16:54,721 INFO engine.generative.engine: sd-cli: [I]   components (params: compute device -> RAM -> other GPU -> disk): --- backend_fit.cpp:337
+2026-10-31 19:16:54,721 INFO engine.generative.engine: sd-cli: [I]     DiT          params   4897 MiB, compute reserve  2048 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-31 19:16:54,721 INFO engine.generative.engine: sd-cli: [I]     Conditioner  params   1559 MiB, compute reserve  2048 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-31 19:16:54,722 INFO engine.generative.engine: sd-cli: [I]     VAE          params    159 MiB, compute reserve  1024 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-31 19:16:54,722 INFO engine.generative.engine: sd-cli: [I] auto-fit: --backend "cpu" --params-backend "diffusion=cpu,te=cpu,vae=cpu" --- backend_fit.cpp:477
+2026-10-31 19:16:54,731 INFO engine.generative.engine: sd-cli: [I] Weight type stat:                      f16: 2515  --- diffusion_engine.cpp:1548
+2026-10-31 19:16:54,731 INFO engine.generative.engine: sd-cli: [I] Conditioner weight type stat:          f16: 587   --- diffusion_engine.cpp:1549
+2026-10-31 19:16:54,732 INFO engine.generative.engine: sd-cli: [I] Diffusion model weight type stat:      f16: 1680  --- diffusion_engine.cpp:1550
+2026-10-31 19:16:54,732 INFO engine.generative.engine: sd-cli: [I] VAE weight type stat:                  f16: 248   --- diffusion_engine.cpp:1551
+2026-10-31 19:16:54,813 INFO engine.generative.engine: sd-cli: [I] using VAE for encoding / decoding --- model_builders.cpp:210
+2026-10-31 19:16:54,813 INFO engine.generative.engine: sd-cli: [I] vae decoder: ch = 128 --- auto_encoder_kl.hpp:529
+2026-10-31 19:16:54,813 INFO engine.generative.engine: sd-cli: [W] No valid VAE specified with --vae or --force-sdxl-vae-conv-scale flag set, using Conv2D scale 0.031 --- sd.cpp:15
+2026-10-31 19:16:54,814 INFO engine.generative.engine: sd-cli: [I] flash attention auto: CPU -> on (CPU) --- flash_attn.cpp:66
+2026-10-31 19:16:54,814 INFO engine.generative.engine: sd-cli: [I] conv2d direct auto: CPU -> off (no implicit GEMM path) --- conv_direct.cpp:90
+2026-10-31 19:16:54,814 INFO engine.generative.engine: sd-cli: [I] conv3d direct auto: CPU -> off (no implicit GEMM path) --- conv_direct.cpp:90
+2026-10-31 19:16:54,814 INFO engine.generative.engine: sd-cli: [I] total params memory size = 6624.11MB (VRAM 0.00MB, RAM 6624.11MB): text_encoders 1564.36MB(RAM), diffusion_model 4900.07MB(RAM), vae 159.68MB(RAM), controlnet 0.00MB(N/A), extensions 0.00MB(N/A) --- diffusion_engine.cpp:1438
+2026-10-31 19:16:54,814 INFO engine.generative.engine: sd-cli: [I] running in eps-prediction mode --- diffusion_engine.cpp:1467
+2026-10-31 19:16:54,817 INFO engine.generative.engine: sd-cli: [I] generate_image 1024x1024 --- image.cpp:869
+2026-10-31 19:16:54,828 INFO engine.generative.engine: sd-cli: [I] get_sigmas with discrete scheduler --- denoiser.hpp:1129
+2026-10-31 19:16:54,828 INFO engine.generative.engine: sd-cli: [I] sampling using Euler A method --- request.cpp:477
+2026-10-31 19:16:54,843 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 1 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:16:55,052 INFO engine.generative.engine: sd-cli:   |##################################################| 178/178 -   1.04GB/s[K
+2026-10-31 19:16:55,052 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.06s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:16:55,142 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:16:55,559 INFO engine.generative.engine: sd-cli:   |###########################                       | 198/374 -   2.54GB/s[K
+2026-10-31 19:16:55,559 INFO engine.generative.engine: sd-cli:   |##################################################| 374/374 -   3.02GB/s[K
+2026-10-31 19:16:55,560 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.39s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:16:56,182 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:16:56,395 INFO engine.generative.engine: sd-cli:   |##################################################| 15/15 - 194.55MB/s[K
+2026-10-31 19:16:56,395 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.01s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:16:57,758 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 3 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:16:58,400 INFO engine.generative.engine: sd-cli: [I] get_learned_condition completed, taking 3.56s --- image.cpp:580
+2026-10-31 19:16:58,401 INFO engine.generative.engine: sd-cli: [I] generating image: 1/1 - seed 6725 --- image.cpp:920
+2026-10-31 19:16:58,416 INFO engine.generative.engine: sd-cli: [I] unet build cached graph cut plan done (taking 9 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:16:58,833 INFO engine.generative.engine: sd-cli:   |#########                                         |  301/1680 -   2.56GB/s[K
+2026-10-31 19:16:59,041 INFO engine.generative.engine: sd-cli:   |###############                                   |  486/1680 -   2.84GB/s[K
+2026-10-31 19:16:59,248 INFO engine.generative.engine: sd-cli:   |#####################                             |  678/1680 -   2.87GB/s[K
+2026-10-31 19:16:59,454 INFO engine.generative.engine: sd-cli:   |##########################                        |  860/1680 -   2.91GB/s[K
+2026-10-31 19:16:59,661 INFO engine.generative.engine: sd-cli:   |################################                  | 1050/1680 -   2.94GB/s[K
+2026-10-31 19:16:59,867 INFO engine.generative.engine: sd-cli:   |#####################################             | 1232/1680 -   2.96GB/s[K
+2026-10-31 19:17:00,073 INFO engine.generative.engine: sd-cli:   |###########################################       | 1414/1680 -   2.97GB/s[K
+2026-10-31 19:17:00,073 INFO engine.generative.engine: sd-cli:   |##################################################| 1680/1680 -   2.90GB/s[K
+2026-10-31 19:17:00,074 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 1.65s (read: 1.59s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:17:48,490 ERROR app.image_generation: Image generation failed
+Traceback (most recent call last):
+  File "C:\LocalAI\app\image_generation.py", line 46, in run
+    self.engine.generate(
+    ~~~~~~~~~~~~~~~~~~~~^
+        self.model_path, self.prompt, self.output_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        progress=self.status.emit, cancelled=self.stop_event.is_set,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        **self.options,
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\LocalAI\engine\generative\engine.py", line 279, in generate
+    raise GenerativeModelError("Генерация отменена пользователем.")
+engine.generative.engine.GenerativeModelError: Генерация отменена пользователем.
+2026-10-31 19:18:03,628 INFO engine.generative.engine: SDXL command: C:\LocalAI\engine\generative\bin\sd-cli.exe --mode img_gen --model C:\LLM\sd_xl_base_1.0.safetensors --backend diffusion=vulkan0,te=cpu,vae=cpu --max-vram vulkan0=3 --threads 8 --rng cpu --prompt-file C:\LocalAI\generated_images\localai-p_88hwzn.prompt.txt --negative-prompt-file C:\LocalAI\generated_images\localai-3lx4ehfp.negative-prompt.txt --width 1024 --height 1024 --steps 20 --seed -1 --output C:\LocalAI\generated_images\image_20261031_191803_130700.png
+2026-10-31 19:18:03,800 INFO engine.generative.engine: sd-cli: ggml_vulkan: Found 1 Vulkan devices:
+2026-10-31 19:18:03,800 INFO engine.generative.engine: sd-cli: ggml_vulkan: 0 = AMD Radeon RX 6400 (AMD proprietary driver) | uma: 0 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 32768 | int dot: 1 | matrix cores: none
+2026-10-31 19:18:03,801 INFO engine.generative.engine: sd-cli: load_backend: loaded Vulkan backend from C:\LocalAI\engine\generative\bin\ggml-vulkan.dll
+2026-10-31 19:18:03,814 INFO engine.generative.engine: sd-cli: load_backend: loaded CPU backend from C:\LocalAI\engine\generative\bin\ggml-cpu-haswell.dll
+2026-10-31 19:18:03,814 INFO engine.generative.engine: sd-cli: [I] loading model from 'C:\LLM\sd_xl_base_1.0.safetensors' --- diffusion_engine.cpp:685
+2026-10-31 19:18:03,820 INFO engine.generative.engine: sd-cli: [I] load C:\LLM\sd_xl_base_1.0.safetensors using safetensors format --- model_loader.cpp:222
+2026-10-31 19:18:03,853 INFO engine.generative.engine: sd-cli: [I] Version: SDXL  --- diffusion_engine.cpp:975
+2026-10-31 19:18:03,853 INFO engine.generative.engine: sd-cli: [I] auto-fit plan: --- backend_fit.cpp:323
+2026-10-31 19:18:03,853 INFO engine.generative.engine: sd-cli: [I]   devices: --- backend_fit.cpp:324
+2026-10-31 19:18:03,853 INFO engine.generative.engine: sd-cli: [I]     Vulkan0      AMD Radeon RX 6400               free   3443 MiB, budget   3072 MiB --- backend_fit.cpp:328
+2026-10-31 19:18:03,854 INFO engine.generative.engine: sd-cli: [I]     RAM          free  23692 MiB, params budget  21323 MiB --- backend_fit.cpp:334
+2026-10-31 19:18:03,854 INFO engine.generative.engine: sd-cli: [I]   compute-device weight cache priority: diffusion > te > vae --- backend_fit.cpp:336
+2026-10-31 19:18:03,854 INFO engine.generative.engine: sd-cli: [I]   components (params: compute device -> RAM -> other GPU -> disk): --- backend_fit.cpp:337
+2026-10-31 19:18:03,854 INFO engine.generative.engine: sd-cli: [I]     DiT          params   4897 MiB, compute reserve  2048 MiB -> compute Vulkan0, params cpu --- backend_fit.cpp:348
+2026-10-31 19:18:03,854 INFO engine.generative.engine: sd-cli: [I]     Conditioner  params   1559 MiB, compute reserve  2048 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-31 19:18:03,854 INFO engine.generative.engine: sd-cli: [I]     VAE          params    159 MiB, compute reserve  1024 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-31 19:18:03,855 INFO engine.generative.engine: sd-cli: [I] auto-fit: --backend "diffusion=vulkan0,te=cpu,vae=cpu" --params-backend "diffusion=cpu,te=cpu,vae=cpu" --- backend_fit.cpp:477
+2026-10-31 19:18:03,885 INFO engine.generative.engine: sd-cli: [I] Weight type stat:                      f16: 2515  --- diffusion_engine.cpp:1548
+2026-10-31 19:18:03,885 INFO engine.generative.engine: sd-cli: [I] Conditioner weight type stat:          f16: 587   --- diffusion_engine.cpp:1549
+2026-10-31 19:18:03,886 INFO engine.generative.engine: sd-cli: [I] Diffusion model weight type stat:      f16: 1680  --- diffusion_engine.cpp:1550
+2026-10-31 19:18:03,886 INFO engine.generative.engine: sd-cli: [I] VAE weight type stat:                  f16: 248   --- diffusion_engine.cpp:1551
+2026-10-31 19:18:03,964 INFO engine.generative.engine: sd-cli: [I] using VAE for encoding / decoding --- model_builders.cpp:210
+2026-10-31 19:18:03,964 INFO engine.generative.engine: sd-cli: [I] vae decoder: ch = 128 --- auto_encoder_kl.hpp:529
+2026-10-31 19:18:03,965 INFO engine.generative.engine: sd-cli: [W] No valid VAE specified with --vae or --force-sdxl-vae-conv-scale flag set, using Conv2D scale 0.031 --- sd.cpp:15
+2026-10-31 19:18:03,965 INFO engine.generative.engine: sd-cli: [I] flash attention auto: CPU -> on (CPU) --- flash_attn.cpp:66
+2026-10-31 19:18:04,221 INFO engine.generative.engine: sd-cli: [I] flash attention auto: Vulkan0 -> off (probe: normal 2.078 ms, flash 31.236 ms) --- flash_attn.cpp:95
+2026-10-31 19:18:04,227 INFO engine.generative.engine: sd-cli: [W] conv2d direct auto: Vulkan0 -> off (probe output check failed) --- conv_direct.cpp:79
+2026-10-31 19:18:04,234 INFO engine.generative.engine: sd-cli: [W] conv3d direct auto: Vulkan0 -> off (probe output check failed) --- conv_direct.cpp:79
+2026-10-31 19:18:04,234 INFO engine.generative.engine: sd-cli: [I] conv2d direct auto: CPU -> off (no implicit GEMM path) --- conv_direct.cpp:90
+2026-10-31 19:18:04,234 INFO engine.generative.engine: sd-cli: [I] conv3d direct auto: CPU -> off (no implicit GEMM path) --- conv_direct.cpp:90
+2026-10-31 19:18:04,234 INFO engine.generative.engine: sd-cli: [I] total params memory size = 6624.11MB (VRAM 0.00MB, RAM 6624.11MB): text_encoders 1564.36MB(RAM), diffusion_model 4900.07MB(RAM), vae 159.68MB(RAM), controlnet 0.00MB(N/A), extensions 0.00MB(N/A) --- diffusion_engine.cpp:1438
+2026-10-31 19:18:04,234 INFO engine.generative.engine: sd-cli: [I] running in eps-prediction mode --- diffusion_engine.cpp:1467
+2026-10-31 19:18:04,237 INFO engine.generative.engine: sd-cli: [I] generate_image 1024x1024 --- image.cpp:869
+2026-10-31 19:18:04,248 INFO engine.generative.engine: sd-cli: [I] get_sigmas with discrete scheduler --- denoiser.hpp:1129
+2026-10-31 19:18:04,248 INFO engine.generative.engine: sd-cli: [I] sampling using Euler A method --- request.cpp:477
+2026-10-31 19:18:04,262 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 1 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:18:04,467 INFO engine.generative.engine: sd-cli:   |##################################################| 178/178 -   1.06GB/s[K
+2026-10-31 19:18:04,468 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.20s (read: 0.07s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:04,556 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:18:04,976 INFO engine.generative.engine: sd-cli:   |###########################                       | 198/374 -   2.49GB/s[K
+2026-10-31 19:18:04,976 INFO engine.generative.engine: sd-cli:   |##################################################| 374/374 -   3.00GB/s[K
+2026-10-31 19:18:04,976 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.39s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:05,586 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:18:05,798 INFO engine.generative.engine: sd-cli:   |##################################################| 15/15 - 194.55MB/s[K
+2026-10-31 19:18:05,799 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.01s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:07,109 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:18:07,743 INFO engine.generative.engine: sd-cli: [I] get_learned_condition completed, taking 3.48s --- image.cpp:580
+2026-10-31 19:18:07,744 INFO engine.generative.engine: sd-cli: [I] generating image: 1/1 - seed 6954 --- image.cpp:920
+2026-10-31 19:18:07,759 INFO engine.generative.engine: sd-cli: [I] unet build cached graph cut plan done (taking 8 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:18:07,990 INFO engine.generative.engine: sd-cli:   |##################################################| 20/20 -  87.69MB/s[K
+2026-10-31 19:18:07,991 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:08,306 INFO engine.generative.engine: sd-cli:   |##################################################| 10/10 -  20.78MB/s[K
+2026-10-31 19:18:08,306 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:08,633 INFO engine.generative.engine: sd-cli:   |##################################################| 60/60 - 248.85MB/s[K
+2026-10-31 19:18:08,634 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:09,267 INFO engine.generative.engine: sd-cli:   |##################################################| 56/56 - 266.19MB/s[K
+2026-10-31 19:18:09,268 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:10,153 INFO engine.generative.engine: sd-cli:   |##################################################| 220/220 -   2.98GB/s[K
+2026-10-31 19:18:10,153 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.24s (read: 0.22s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:11,314 INFO engine.generative.engine: sd-cli:   |################################################# | 210/216 -   2.90GB/s[K
+2026-10-31 19:18:11,315 INFO engine.generative.engine: sd-cli:   |##################################################| 216/216 -   1.73GB/s[K
+2026-10-31 19:18:11,316 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.22s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:12,697 INFO engine.generative.engine: sd-cli:   |###############################################   | 210/226 -   2.78GB/s[K
+2026-10-31 19:18:12,697 INFO engine.generative.engine: sd-cli:   |##################################################| 226/226 -   1.82GB/s[K
+2026-10-31 19:18:12,698 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.24s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:14,158 INFO engine.generative.engine: sd-cli:   |################################################  | 206/218 -   2.77GB/s[K
+2026-10-31 19:18:14,158 INFO engine.generative.engine: sd-cli:   |##################################################| 218/218 -   1.76GB/s[K
+2026-10-31 19:18:14,158 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.23s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:20,309 INFO engine.generative.engine: sd-cli:   |################################################  | 206/218 -   2.81GB/s[K
+2026-10-31 19:18:20,310 INFO engine.generative.engine: sd-cli:   |##################################################| 218/218 -   1.79GB/s[K
+2026-10-31 19:18:20,312 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.23s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:21,660 INFO engine.generative.engine: sd-cli:   |##############################################    | 199/220 -   2.69GB/s[K
+2026-10-31 19:18:21,660 INFO engine.generative.engine: sd-cli:   |##################################################| 220/220 -   1.84GB/s[K
+2026-10-31 19:18:21,662 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.25s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:27,368 INFO engine.generative.engine: sd-cli:   |##################################################| 58/58 - 336.99MB/s[K
+2026-10-31 19:18:27,369 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:28,625 INFO engine.generative.engine: sd-cli:   |##################################################| 58/58 - 315.10MB/s[K
+2026-10-31 19:18:28,626 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.20s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:30,880 INFO engine.generative.engine: sd-cli:   |##################################################| 60/60 - 330.49MB/s[K
+2026-10-31 19:18:30,881 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.20s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:33,549 INFO engine.generative.engine: sd-cli:   |##################################################| 12/12 -  38.92MB/s[K
+2026-10-31 19:18:33,550 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:37,132 INFO engine.generative.engine: sd-cli:   |##################################################| 12/12 -  30.29MB/s[K
+2026-10-31 19:18:37,133 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:37,523 INFO engine.generative.engine: sd-cli:   |##################################################| 12/12 -  31.62MB/s[K
+2026-10-31 19:18:37,524 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.20s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:18:37,680 INFO engine.generative.engine: sd-cli:   |##################################################| 4/4 -   1.29MB/s[K
+2026-10-31 19:18:37,680 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.02s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:19:05,765 INFO engine.generative.engine: sd-cli:   |==>                                               |  1/20 -  30.09s/it - ETA 09:31[K
+2026-10-31 19:19:33,709 INFO engine.generative.engine: sd-cli:   |=====>                                            |  2/20 -  27.93s/it - ETA 08:42[K
+2026-10-31 19:19:34,872 ERROR app.image_generation: Image generation failed
+Traceback (most recent call last):
+  File "C:\LocalAI\app\image_generation.py", line 46, in run
+    self.engine.generate(
+    ~~~~~~~~~~~~~~~~~~~~^
+        self.model_path, self.prompt, self.output_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        progress=self.status.emit, cancelled=self.stop_event.is_set,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        **self.options,
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\LocalAI\engine\generative\engine.py", line 279, in generate
+    raise GenerativeModelError("Генерация отменена пользователем.")
+engine.generative.engine.GenerativeModelError: Генерация отменена пользователем.
+2026-10-31 19:20:15,111 INFO engine.generative.engine: SDXL command: C:\LocalAI\engine\generative\bin\sd-cli.exe --mode img_gen --model C:\LLM\sd_xl_base_1.0.safetensors --backend diffusion=vulkan0,te=cpu,vae=cpu --max-vram vulkan0=3 --threads 8 --rng cpu --prompt-file C:\LocalAI\generated_images\localai-ves4xkfz.prompt.txt --negative-prompt-file C:\LocalAI\generated_images\localai-4dnsw2ay.negative-prompt.txt --width 1024 --height 1024 --steps 20 --seed -1 --output C:\LocalAI\generated_images\image_20261031_192015_180100.png
+2026-10-31 19:20:15,171 INFO engine.generative.engine: sd-cli: ggml_vulkan: Found 1 Vulkan devices:
+2026-10-31 19:20:15,172 INFO engine.generative.engine: sd-cli: ggml_vulkan: 0 = AMD Radeon RX 6400 (AMD proprietary driver) | uma: 0 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 32768 | int dot: 1 | matrix cores: none
+2026-10-31 19:20:15,172 INFO engine.generative.engine: sd-cli: load_backend: loaded Vulkan backend from C:\LocalAI\engine\generative\bin\ggml-vulkan.dll
+2026-10-31 19:20:15,183 INFO engine.generative.engine: sd-cli: load_backend: loaded CPU backend from C:\LocalAI\engine\generative\bin\ggml-cpu-haswell.dll
+2026-10-31 19:20:15,184 INFO engine.generative.engine: sd-cli: [I] loading model from 'C:\LLM\sd_xl_base_1.0.safetensors' --- diffusion_engine.cpp:685
+2026-10-31 19:20:15,190 INFO engine.generative.engine: sd-cli: [I] load C:\LLM\sd_xl_base_1.0.safetensors using safetensors format --- model_loader.cpp:222
+2026-10-31 19:20:15,223 INFO engine.generative.engine: sd-cli: [I] Version: SDXL  --- diffusion_engine.cpp:975
+2026-10-31 19:20:15,223 INFO engine.generative.engine: sd-cli: [I] auto-fit plan: --- backend_fit.cpp:323
+2026-10-31 19:20:15,223 INFO engine.generative.engine: sd-cli: [I]   devices: --- backend_fit.cpp:324
+2026-10-31 19:20:15,224 INFO engine.generative.engine: sd-cli: [I]     Vulkan0      AMD Radeon RX 6400               free   3443 MiB, budget   3072 MiB --- backend_fit.cpp:328
+2026-10-31 19:20:15,224 INFO engine.generative.engine: sd-cli: [I]     RAM          free  23766 MiB, params budget  21389 MiB --- backend_fit.cpp:334
+2026-10-31 19:20:15,224 INFO engine.generative.engine: sd-cli: [I]   compute-device weight cache priority: diffusion > te > vae --- backend_fit.cpp:336
+2026-10-31 19:20:15,224 INFO engine.generative.engine: sd-cli: [I]   components (params: compute device -> RAM -> other GPU -> disk): --- backend_fit.cpp:337
+2026-10-31 19:20:15,224 INFO engine.generative.engine: sd-cli: [I]     DiT          params   4897 MiB, compute reserve  2048 MiB -> compute Vulkan0, params cpu --- backend_fit.cpp:348
+2026-10-31 19:20:15,225 INFO engine.generative.engine: sd-cli: [I]     Conditioner  params   1559 MiB, compute reserve  2048 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-31 19:20:15,225 INFO engine.generative.engine: sd-cli: [I]     VAE          params    159 MiB, compute reserve  1024 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-31 19:20:15,225 INFO engine.generative.engine: sd-cli: [I] auto-fit: --backend "diffusion=vulkan0,te=cpu,vae=cpu" --params-backend "diffusion=cpu,te=cpu,vae=cpu" --- backend_fit.cpp:477
+2026-10-31 19:20:15,257 INFO engine.generative.engine: sd-cli: [I] Weight type stat:                      f16: 2515  --- diffusion_engine.cpp:1548
+2026-10-31 19:20:15,257 INFO engine.generative.engine: sd-cli: [I] Conditioner weight type stat:          f16: 587   --- diffusion_engine.cpp:1549
+2026-10-31 19:20:15,257 INFO engine.generative.engine: sd-cli: [I] Diffusion model weight type stat:      f16: 1680  --- diffusion_engine.cpp:1550
+2026-10-31 19:20:15,257 INFO engine.generative.engine: sd-cli: [I] VAE weight type stat:                  f16: 248   --- diffusion_engine.cpp:1551
+2026-10-31 19:20:15,337 INFO engine.generative.engine: sd-cli: [I] using VAE for encoding / decoding --- model_builders.cpp:210
+2026-10-31 19:20:15,337 INFO engine.generative.engine: sd-cli: [I] vae decoder: ch = 128 --- auto_encoder_kl.hpp:529
+2026-10-31 19:20:15,338 INFO engine.generative.engine: sd-cli: [W] No valid VAE specified with --vae or --force-sdxl-vae-conv-scale flag set, using Conv2D scale 0.031 --- sd.cpp:15
+2026-10-31 19:20:15,338 INFO engine.generative.engine: sd-cli: [I] flash attention auto: CPU -> on (CPU) --- flash_attn.cpp:66
+2026-10-31 19:20:15,575 INFO engine.generative.engine: sd-cli: [I] flash attention auto: Vulkan0 -> off (probe: normal 1.795 ms, flash 31.087 ms) --- flash_attn.cpp:95
+2026-10-31 19:20:15,580 INFO engine.generative.engine: sd-cli: [W] conv2d direct auto: Vulkan0 -> off (probe output check failed) --- conv_direct.cpp:79
+2026-10-31 19:20:15,586 INFO engine.generative.engine: sd-cli: [W] conv3d direct auto: Vulkan0 -> off (probe output check failed) --- conv_direct.cpp:79
+2026-10-31 19:20:15,587 INFO engine.generative.engine: sd-cli: [I] conv2d direct auto: CPU -> off (no implicit GEMM path) --- conv_direct.cpp:90
+2026-10-31 19:20:15,587 INFO engine.generative.engine: sd-cli: [I] conv3d direct auto: CPU -> off (no implicit GEMM path) --- conv_direct.cpp:90
+2026-10-31 19:20:15,587 INFO engine.generative.engine: sd-cli: [I] total params memory size = 6624.11MB (VRAM 0.00MB, RAM 6624.11MB): text_encoders 1564.36MB(RAM), diffusion_model 4900.07MB(RAM), vae 159.68MB(RAM), controlnet 0.00MB(N/A), extensions 0.00MB(N/A) --- diffusion_engine.cpp:1438
+2026-10-31 19:20:15,587 INFO engine.generative.engine: sd-cli: [I] running in eps-prediction mode --- diffusion_engine.cpp:1467
+2026-10-31 19:20:15,590 INFO engine.generative.engine: sd-cli: [I] generate_image 1024x1024 --- image.cpp:869
+2026-10-31 19:20:15,601 INFO engine.generative.engine: sd-cli: [I] get_sigmas with discrete scheduler --- denoiser.hpp:1129
+2026-10-31 19:20:15,601 INFO engine.generative.engine: sd-cli: [I] sampling using Euler A method --- request.cpp:477
+2026-10-31 19:20:15,616 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 0 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:20:15,826 INFO engine.generative.engine: sd-cli:   |##################################################| 178/178 -   1.03GB/s[K
+2026-10-31 19:20:15,826 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.07s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:15,915 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:20:16,335 INFO engine.generative.engine: sd-cli:   |############################                      | 204/374 -   2.55GB/s[K
+2026-10-31 19:20:16,336 INFO engine.generative.engine: sd-cli:   |##################################################| 374/374 -   3.00GB/s[K
+2026-10-31 19:20:16,336 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.39s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:16,941 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:20:17,157 INFO engine.generative.engine: sd-cli:   |##################################################| 15/15 - 191.80MB/s[K
+2026-10-31 19:20:17,158 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.01s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:18,472 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:20:19,095 INFO engine.generative.engine: sd-cli: [I] get_learned_condition completed, taking 3.48s --- image.cpp:580
+2026-10-31 19:20:19,096 INFO engine.generative.engine: sd-cli: [I] generating image: 1/1 - seed 7382 --- image.cpp:920
+2026-10-31 19:20:19,111 INFO engine.generative.engine: sd-cli: [I] unet build cached graph cut plan done (taking 9 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:20:19,344 INFO engine.generative.engine: sd-cli:   |##################################################| 20/20 -  86.86MB/s[K
+2026-10-31 19:20:19,344 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:19,659 INFO engine.generative.engine: sd-cli:   |##################################################| 10/10 -  20.48MB/s[K
+2026-10-31 19:20:19,660 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:19,974 INFO engine.generative.engine: sd-cli:   |##################################################| 60/60 - 264.71MB/s[K
+2026-10-31 19:20:19,975 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.20s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:20,573 INFO engine.generative.engine: sd-cli:   |##################################################| 56/56 - 263.65MB/s[K
+2026-10-31 19:20:20,573 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:21,435 INFO engine.generative.engine: sd-cli:   |################################################# | 214/220 -   2.91GB/s[K
+2026-10-31 19:20:21,436 INFO engine.generative.engine: sd-cli:   |##################################################| 220/220 -   1.73GB/s[K
+2026-10-31 19:20:21,437 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.22s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:22,379 INFO engine.generative.engine: sd-cli:   |##################################################| 216/216 -   3.03GB/s[K
+2026-10-31 19:20:22,379 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.23s (read: 0.22s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:23,736 INFO engine.generative.engine: sd-cli:   |###############################################   | 208/226 -   2.86GB/s[K
+2026-10-31 19:20:23,737 INFO engine.generative.engine: sd-cli:   |##################################################| 226/226 -   1.86GB/s[K
+2026-10-31 19:20:23,739 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.23s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:25,134 INFO engine.generative.engine: sd-cli:   |################################################# | 212/218 -   2.92GB/s[K
+2026-10-31 19:20:25,135 INFO engine.generative.engine: sd-cli:   |##################################################| 218/218 -   1.76GB/s[K
+2026-10-31 19:20:25,136 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.23s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:31,193 INFO engine.generative.engine: sd-cli:   |###############################################   | 201/218 -   2.80GB/s[K
+2026-10-31 19:20:31,194 INFO engine.generative.engine: sd-cli:   |##################################################| 218/218 -   1.82GB/s[K
+2026-10-31 19:20:31,195 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.23s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:32,546 INFO engine.generative.engine: sd-cli:   |###############################################   | 206/220 -   2.86GB/s[K
+2026-10-31 19:20:32,547 INFO engine.generative.engine: sd-cli:   |##################################################| 220/220 -   1.84GB/s[K
+2026-10-31 19:20:32,548 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.23s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:38,233 INFO engine.generative.engine: sd-cli:   |##################################################| 58/58 - 341.81MB/s[K
+2026-10-31 19:20:38,234 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:39,505 INFO engine.generative.engine: sd-cli:   |##################################################| 58/58 - 297.51MB/s[K
+2026-10-31 19:20:39,505 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:41,767 INFO engine.generative.engine: sd-cli:   |##################################################| 60/60 - 310.60MB/s[K
+2026-10-31 19:20:41,767 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:44,406 INFO engine.generative.engine: sd-cli:   |##################################################| 12/12 -  38.74MB/s[K
+2026-10-31 19:20:44,407 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:47,956 INFO engine.generative.engine: sd-cli:   |##################################################| 12/12 -  31.32MB/s[K
+2026-10-31 19:20:47,957 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:48,360 INFO engine.generative.engine: sd-cli:   |##################################################| 12/12 -  30.01MB/s[K
+2026-10-31 19:20:48,361 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:20:48,517 INFO engine.generative.engine: sd-cli:   |##################################################| 4/4 -   1.16MB/s[K
+2026-10-31 19:20:48,518 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.02s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:21:16,626 INFO engine.generative.engine: sd-cli:   |==>                                               |  1/20 -  29.57s/it - ETA 09:21[K
+2026-10-31 19:21:44,495 INFO engine.generative.engine: sd-cli:   |=====>                                            |  2/20 -  27.95s/it - ETA 08:37[K
+2026-10-31 19:22:24,556 INFO engine.generative.engine: sd-cli:   |=======>                                          |  3/20 -  27.87s/it - ETA 08:03[K
+2026-10-31 19:22:52,480 INFO engine.generative.engine: sd-cli:   |==========>                                       |  4/20 -  40.06s/it - ETA 08:21[K
+2026-10-31 19:23:30,569 INFO engine.generative.engine: sd-cli:   |============>                                     |  5/20 -  27.92s/it - ETA 07:40[K
+2026-10-31 19:23:58,409 INFO engine.generative.engine: sd-cli:   |===============>                                  |  6/20 -  38.09s/it - ETA 07:26[K
+2026-10-31 19:24:38,287 INFO engine.generative.engine: sd-cli:   |=================>                                |  7/20 -  27.84s/it - ETA 06:47[K
+2026-10-31 19:25:06,235 INFO engine.generative.engine: sd-cli:   |====================>                             |  8/20 -  39.88s/it - ETA 06:28[K
+2026-10-31 19:25:44,321 INFO engine.generative.engine: sd-cli:   |======================>                           |  9/20 -  27.95s/it - ETA 05:50[K
+2026-10-31 19:26:12,211 INFO engine.generative.engine: sd-cli:   |=========================>                        | 10/20 -  38.09s/it - ETA 05:25[K
+2026-10-31 19:26:52,009 INFO engine.generative.engine: sd-cli:   |===========================>                      | 11/20 -  27.89s/it - ETA 04:48[K
+2026-10-31 19:27:19,908 INFO engine.generative.engine: sd-cli:   |==============================>                   | 12/20 -  39.80s/it - ETA 04:21[K
+2026-10-31 19:27:57,993 INFO engine.generative.engine: sd-cli:   |================================>                 | 13/20 -  27.90s/it - ETA 03:46[K
+2026-10-31 19:28:25,887 INFO engine.generative.engine: sd-cli:   |===================================>              | 14/20 -  38.08s/it - ETA 03:16[K
+2026-10-31 19:29:05,740 INFO engine.generative.engine: sd-cli:   |=====================================>            | 15/20 -  27.89s/it - ETA 02:42[K
+2026-10-31 19:29:33,606 INFO engine.generative.engine: sd-cli:   |========================================>         | 16/20 -  39.85s/it - ETA 02:11[K
+2026-10-31 19:30:11,646 INFO engine.generative.engine: sd-cli:   |==========================================>       | 17/20 -  27.87s/it - ETA 01:37[K
+2026-10-31 19:30:39,495 INFO engine.generative.engine: sd-cli:   |=============================================>    | 18/20 -  38.04s/it - ETA 01:05[K
+2026-10-31 19:31:19,388 INFO engine.generative.engine: sd-cli:   |===============================================>  | 19/20 -  27.85s/it - ETA 00:32[K
+2026-10-31 19:31:19,388 INFO engine.generative.engine: sd-cli:   |==================================================| 20/20 -  39.89s/it[K
+2026-10-31 19:31:19,432 INFO engine.generative.engine: sd-cli: [I] sampling completed, taking 660.34s --- image.cpp:953
+2026-10-31 19:31:19,432 INFO engine.generative.engine: sd-cli: [I] generating 1 latent images completed, taking 660.34s --- image.cpp:967
+2026-10-31 19:31:19,433 INFO engine.generative.engine: sd-cli: [I] decoding 1 latents --- image.cpp:605
+2026-10-31 19:31:19,433 INFO engine.generative.engine: sd-cli: [I] vae build cached graph cut plan done (taking 1 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:31:19,646 INFO engine.generative.engine: sd-cli:   |##################################################| 140/140 - 447.37MB/s[K
+2026-10-31 19:31:19,647 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.04s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:32:52,374 INFO engine.generative.engine: sd-cli: [I] latent 1 decoded, taking 92.94s --- image.cpp:671
+2026-10-31 19:32:52,374 INFO engine.generative.engine: sd-cli: [I] decode_first_stage completed, taking 92.94s --- image.cpp:675
+2026-10-31 19:32:52,377 INFO engine.generative.engine: sd-cli: [I] generate_image completed in 756.79s --- image.cpp:1140
+2026-10-31 19:32:52,864 INFO engine.generative.engine: sd-cli: [I] save result image 0 to 'C:\LocalAI\generated_images\image_20261031_192015_180100.png' (success) --- main.cpp:495
+2026-10-31 19:32:52,864 INFO engine.generative.engine: sd-cli: [I] 1/1 images saved --- main.cpp:571
+2026-10-31 19:54:27,714 INFO engine.generative.engine: SDXL command: C:\LocalAI\engine\generative\bin\sd-cli.exe --mode img_gen --model C:\LLM\sd_xl_base_1.0.safetensors --backend diffusion=vulkan0,te=cpu,vae=vulkan0 --max-vram vulkan0=3.2 --auto-fit on --threads 0 --rng cpu --prompt-file C:\LocalAI\generated_images\localai-s_jmtcip.prompt.txt --negative-prompt-file C:\LocalAI\generated_images\localai-utd_wp3m.negative-prompt.txt --width 512 --height 512 --steps 20 --seed 42 --output C:\LocalAI\generated_images\image_20261031_195427_109800.png
+2026-10-31 19:54:27,774 INFO engine.generative.engine: sd-cli: ggml_vulkan: Found 1 Vulkan devices:
+2026-10-31 19:54:27,775 INFO engine.generative.engine: sd-cli: ggml_vulkan: 0 = AMD Radeon RX 6400 (AMD proprietary driver) | uma: 0 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 32768 | int dot: 1 | matrix cores: none
+2026-10-31 19:54:27,775 INFO engine.generative.engine: sd-cli: load_backend: loaded Vulkan backend from C:\LocalAI\engine\generative\bin\ggml-vulkan.dll
+2026-10-31 19:54:27,786 INFO engine.generative.engine: sd-cli: load_backend: loaded CPU backend from C:\LocalAI\engine\generative\bin\ggml-cpu-haswell.dll
+2026-10-31 19:54:27,787 INFO engine.generative.engine: sd-cli: [I] loading model from 'C:\LLM\sd_xl_base_1.0.safetensors' --- diffusion_engine.cpp:685
+2026-10-31 19:54:27,793 INFO engine.generative.engine: sd-cli: [I] load C:\LLM\sd_xl_base_1.0.safetensors using safetensors format --- model_loader.cpp:222
+2026-10-31 19:54:27,826 INFO engine.generative.engine: sd-cli: [I] Version: SDXL  --- diffusion_engine.cpp:975
+2026-10-31 19:54:27,826 INFO engine.generative.engine: sd-cli: [I] auto-fit plan: --- backend_fit.cpp:323
+2026-10-31 19:54:27,826 INFO engine.generative.engine: sd-cli: [I]   devices: --- backend_fit.cpp:324
+2026-10-31 19:54:27,827 INFO engine.generative.engine: sd-cli: [I]     Vulkan0      AMD Radeon RX 6400               free   3443 MiB, budget   3276 MiB --- backend_fit.cpp:328
+2026-10-31 19:54:27,827 INFO engine.generative.engine: sd-cli: [I]     RAM          free  24554 MiB, params budget  22098 MiB --- backend_fit.cpp:334
+2026-10-31 19:54:27,827 INFO engine.generative.engine: sd-cli: [I]   compute-device weight cache priority: diffusion > te > vae --- backend_fit.cpp:336
+2026-10-31 19:54:27,827 INFO engine.generative.engine: sd-cli: [I]   components (params: compute device -> RAM -> other GPU -> disk): --- backend_fit.cpp:337
+2026-10-31 19:54:27,827 INFO engine.generative.engine: sd-cli: [I]     DiT          params   4897 MiB, compute reserve  2048 MiB -> compute Vulkan0, params cpu --- backend_fit.cpp:348
+2026-10-31 19:54:27,827 INFO engine.generative.engine: sd-cli: [I]     Conditioner  params   1559 MiB, compute reserve  2048 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-31 19:54:27,828 INFO engine.generative.engine: sd-cli: [I]     VAE          params    159 MiB, compute reserve  1024 MiB -> compute Vulkan0, params cpu --- backend_fit.cpp:348
+2026-10-31 19:54:27,828 INFO engine.generative.engine: sd-cli: [I] auto-fit: --backend "diffusion=vulkan0,te=cpu,vae=vulkan0" --params-backend "diffusion=cpu,te=cpu,vae=cpu" --- backend_fit.cpp:477
+2026-10-31 19:54:27,861 INFO engine.generative.engine: sd-cli: [I] Weight type stat:                      f16: 2515  --- diffusion_engine.cpp:1548
+2026-10-31 19:54:27,861 INFO engine.generative.engine: sd-cli: [I] Conditioner weight type stat:          f16: 587   --- diffusion_engine.cpp:1549
+2026-10-31 19:54:27,862 INFO engine.generative.engine: sd-cli: [I] Diffusion model weight type stat:      f16: 1680  --- diffusion_engine.cpp:1550
+2026-10-31 19:54:27,862 INFO engine.generative.engine: sd-cli: [I] VAE weight type stat:                  f16: 248   --- diffusion_engine.cpp:1551
+2026-10-31 19:54:27,941 INFO engine.generative.engine: sd-cli: [I] using VAE for encoding / decoding --- model_builders.cpp:210
+2026-10-31 19:54:27,942 INFO engine.generative.engine: sd-cli: [I] vae decoder: ch = 128 --- auto_encoder_kl.hpp:529
+2026-10-31 19:54:27,942 INFO engine.generative.engine: sd-cli: [W] No valid VAE specified with --vae or --force-sdxl-vae-conv-scale flag set, using Conv2D scale 0.031 --- sd.cpp:15
+2026-10-31 19:54:27,942 INFO engine.generative.engine: sd-cli: [I] flash attention auto: CPU -> on (CPU) --- flash_attn.cpp:66
+2026-10-31 19:54:28,172 INFO engine.generative.engine: sd-cli: [I] flash attention auto: Vulkan0 -> off (probe: normal 1.759 ms, flash 30.317 ms) --- flash_attn.cpp:95
+2026-10-31 19:54:28,178 INFO engine.generative.engine: sd-cli: [W] conv2d direct auto: Vulkan0 -> off (probe output check failed) --- conv_direct.cpp:79
+2026-10-31 19:54:28,184 INFO engine.generative.engine: sd-cli: [W] conv3d direct auto: Vulkan0 -> off (probe output check failed) --- conv_direct.cpp:79
+2026-10-31 19:54:28,184 INFO engine.generative.engine: sd-cli: [I] total params memory size = 6624.11MB (VRAM 0.00MB, RAM 6624.11MB): text_encoders 1564.36MB(RAM), diffusion_model 4900.07MB(RAM), vae 159.68MB(RAM), controlnet 0.00MB(N/A), extensions 0.00MB(N/A) --- diffusion_engine.cpp:1438
+2026-10-31 19:54:28,184 INFO engine.generative.engine: sd-cli: [I] running in eps-prediction mode --- diffusion_engine.cpp:1467
+2026-10-31 19:54:28,187 INFO engine.generative.engine: sd-cli: [I] generate_image 512x512 --- image.cpp:869
+2026-10-31 19:54:28,198 INFO engine.generative.engine: sd-cli: [I] get_sigmas with discrete scheduler --- denoiser.hpp:1129
+2026-10-31 19:54:28,198 INFO engine.generative.engine: sd-cli: [I] sampling using Euler A method --- request.cpp:477
+2026-10-31 19:54:28,204 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 1 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:54:28,410 INFO engine.generative.engine: sd-cli:   |##################################################| 178/178 -   1.06GB/s[K
+2026-10-31 19:54:28,410 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.20s (read: 0.08s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:28,515 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:54:28,933 INFO engine.generative.engine: sd-cli:   |##################                                | 132/374 -   2.23GB/s[K
+2026-10-31 19:54:29,137 INFO engine.generative.engine: sd-cli:   |#########################################         | 304/374 -   2.40GB/s[K
+2026-10-31 19:54:29,138 INFO engine.generative.engine: sd-cli:   |##################################################| 374/374 -   2.03GB/s[K
+2026-10-31 19:54:29,138 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.62s (read: 0.50s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:29,945 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:54:30,162 INFO engine.generative.engine: sd-cli:   |##################################################| 15/15 - 190.01MB/s[K
+2026-10-31 19:54:30,162 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:31,835 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:54:32,656 INFO engine.generative.engine: sd-cli: [I] get_learned_condition completed, taking 4.45s --- image.cpp:580
+2026-10-31 19:54:32,657 INFO engine.generative.engine: sd-cli: [I] generating image: 1/1 - seed 42 --- image.cpp:920
+2026-10-31 19:54:32,669 INFO engine.generative.engine: sd-cli: [I] unet build cached graph cut plan done (taking 7 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:54:32,907 INFO engine.generative.engine: sd-cli:   |##################################################| 20/20 -  84.84MB/s[K
+2026-10-31 19:54:32,907 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.01s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:33,157 INFO engine.generative.engine: sd-cli:   |##################################################| 10/10 -  21.19MB/s[K
+2026-10-31 19:54:33,157 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.20s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:33,423 INFO engine.generative.engine: sd-cli:   |##################################################| 60/60 - 258.38MB/s[K
+2026-10-31 19:54:33,424 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.03s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:33,703 INFO engine.generative.engine: sd-cli:   |##################################################| 56/56 - 268.77MB/s[K
+2026-10-31 19:54:33,703 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:34,242 INFO engine.generative.engine: sd-cli:   |##########################################        | 181/220 -   2.55GB/s[K
+2026-10-31 19:54:34,242 INFO engine.generative.engine: sd-cli:   |##################################################| 220/220 -   1.74GB/s[K
+2026-10-31 19:54:34,243 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.25s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:35,047 INFO engine.generative.engine: sd-cli:   |###########################################       | 182/216 -   2.60GB/s[K
+2026-10-31 19:54:35,048 INFO engine.generative.engine: sd-cli:   |##################################################| 216/216 -   1.69GB/s[K
+2026-10-31 19:54:35,049 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.25s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:35,994 INFO engine.generative.engine: sd-cli:   |########################################          | 180/226 -   2.65GB/s[K
+2026-10-31 19:54:35,994 INFO engine.generative.engine: sd-cli:   |##################################################| 226/226 -   1.87GB/s[K
+2026-10-31 19:54:35,995 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.27s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:36,892 INFO engine.generative.engine: sd-cli:   |######################################            | 164/218 -   2.55GB/s[K
+2026-10-31 19:54:36,893 INFO engine.generative.engine: sd-cli:   |##################################################| 218/218 -   1.81GB/s[K
+2026-10-31 19:54:36,894 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.27s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:37,728 INFO engine.generative.engine: sd-cli:   |#############################                     | 126/218 -   1.92GB/s[K
+2026-10-31 19:54:37,729 INFO engine.generative.engine: sd-cli:   |##################################################| 218/218 -   1.80GB/s[K
+2026-10-31 19:54:37,729 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.32s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:39,768 INFO engine.generative.engine: sd-cli:   |##########################################        | 182/220 -   2.64GB/s[K
+2026-10-31 19:54:39,769 INFO engine.generative.engine: sd-cli:   |##################################################| 220/220 -   1.80GB/s[K
+2026-10-31 19:54:39,770 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.27s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:40,440 INFO engine.generative.engine: sd-cli:   |##################################################| 58/58 - 345.10MB/s[K
+2026-10-31 19:54:40,441 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.03s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:40,893 INFO engine.generative.engine: sd-cli:   |##################################################| 58/58 - 297.51MB/s[K
+2026-10-31 19:54:40,894 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.03s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:41,221 INFO engine.generative.engine: sd-cli:   |##################################################| 60/60 - 324.11MB/s[K
+2026-10-31 19:54:41,222 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.03s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:41,562 INFO engine.generative.engine: sd-cli:   |##################################################| 12/12 -  38.92MB/s[K
+2026-10-31 19:54:41,562 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:41,907 INFO engine.generative.engine: sd-cli:   |##################################################| 12/12 -  30.29MB/s[K
+2026-10-31 19:54:41,908 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:42,170 INFO engine.generative.engine: sd-cli:   |##################################################| 12/12 -  30.43MB/s[K
+2026-10-31 19:54:42,171 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:42,263 INFO engine.generative.engine: sd-cli:   |##################################################| 4/4 -   1.45MB/s[K
+2026-10-31 19:54:42,263 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.02s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:54:46,337 INFO engine.generative.engine: sd-cli:   |==>                                               |  1/20 -   9.64s/it - ETA 03:03[K
+2026-10-31 19:54:49,929 INFO engine.generative.engine: sd-cli:   |=====>                                            |  2/20 -   4.04s/it - ETA 02:03[K
+2026-10-31 19:54:53,972 INFO engine.generative.engine: sd-cli:   |=======>                                          |  3/20 -   3.59s/it - ETA 01:37[K
+2026-10-31 19:54:58,042 INFO engine.generative.engine: sd-cli:   |==========>                                       |  4/20 -   4.04s/it - ETA 01:25[K
+2026-10-31 19:55:01,671 INFO engine.generative.engine: sd-cli:   |============>                                     |  5/20 -   4.07s/it - ETA 01:16[K
+2026-10-31 19:55:05,686 INFO engine.generative.engine: sd-cli:   |===============>                                  |  6/20 -   3.63s/it - ETA 01:07[K
+2026-10-31 19:55:09,741 INFO engine.generative.engine: sd-cli:   |=================>                                |  7/20 -   4.02s/it - ETA 01:01[K
+2026-10-31 19:55:13,335 INFO engine.generative.engine: sd-cli:   |====================>                             |  8/20 -   4.05s/it - ETA 00:55[K
+2026-10-31 19:55:17,395 INFO engine.generative.engine: sd-cli:   |======================>                           |  9/20 -   3.59s/it - ETA 00:49[K
+2026-10-31 19:55:21,479 INFO engine.generative.engine: sd-cli:   |=========================>                        | 10/20 -   4.06s/it - ETA 00:44[K
+2026-10-31 19:55:25,131 INFO engine.generative.engine: sd-cli:   |===========================>                      | 11/20 -   4.08s/it - ETA 00:39[K
+2026-10-31 19:55:29,218 INFO engine.generative.engine: sd-cli:   |==============================>                   | 12/20 -   3.65s/it - ETA 00:34[K
+2026-10-31 19:55:33,285 INFO engine.generative.engine: sd-cli:   |================================>                 | 13/20 -   4.09s/it - ETA 00:30[K
+2026-10-31 19:55:36,906 INFO engine.generative.engine: sd-cli:   |===================================>              | 14/20 -   4.07s/it - ETA 00:25[K
+2026-10-31 19:55:40,968 INFO engine.generative.engine: sd-cli:   |=====================================>            | 15/20 -   3.62s/it - ETA 00:21[K
+2026-10-31 19:55:45,058 INFO engine.generative.engine: sd-cli:   |========================================>         | 16/20 -   4.06s/it - ETA 00:17[K
+2026-10-31 19:55:48,639 INFO engine.generative.engine: sd-cli:   |==========================================>       | 17/20 -   4.09s/it - ETA 00:12[K
+2026-10-31 19:55:52,786 INFO engine.generative.engine: sd-cli:   |=============================================>    | 18/20 -   3.58s/it - ETA 00:08[K
+2026-10-31 19:55:56,952 INFO engine.generative.engine: sd-cli:   |===============================================>  | 19/20 -   4.15s/it - ETA 00:04[K
+2026-10-31 19:55:56,953 INFO engine.generative.engine: sd-cli:   |==================================================| 20/20 -   4.17s/it[K
+2026-10-31 19:55:57,003 INFO engine.generative.engine: sd-cli: [I] sampling completed, taking 84.35s --- image.cpp:953
+2026-10-31 19:55:57,003 INFO engine.generative.engine: sd-cli: [I] generating 1 latent images completed, taking 84.35s --- image.cpp:967
+2026-10-31 19:55:57,004 INFO engine.generative.engine: sd-cli: [I] decoding 1 latents --- image.cpp:605
+2026-10-31 19:55:57,004 INFO engine.generative.engine: sd-cli: [I] vae build cached graph cut plan done (taking 0 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:55:57,240 INFO engine.generative.engine: sd-cli:   |##################################################| 140/140 - 439.05MB/s[K
+2026-10-31 19:55:57,240 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.03s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:55:59,695 INFO engine.generative.engine: sd-cli: [I] latent 1 decoded, taking 2.69s --- image.cpp:671
+2026-10-31 19:55:59,695 INFO engine.generative.engine: sd-cli: [I] decode_first_stage completed, taking 2.69s --- image.cpp:675
+2026-10-31 19:55:59,696 INFO engine.generative.engine: sd-cli: [I] generate_image completed in 91.51s --- image.cpp:1140
+2026-10-31 19:56:00,020 INFO engine.generative.engine: sd-cli: [I] save result image 0 to 'C:\LocalAI\generated_images\image_20261031_195427_109800.png' (success) --- main.cpp:495
+2026-10-31 19:56:00,020 INFO engine.generative.engine: sd-cli: [I] 1/1 images saved --- main.cpp:571
+2026-10-31 19:57:40,325 INFO engine.generative.engine: SDXL command: C:\LocalAI\engine\generative\bin\sd-cli.exe --mode img_gen --model C:\LLM\sd_xl_base_1.0.safetensors --backend diffusion=vulkan0,te=cpu,vae=vulkan0 --max-vram vulkan0=3.2 --auto-fit on --threads 0 --rng cpu --prompt-file C:\LocalAI\generated_images\localai-sgkux4dp.prompt.txt --negative-prompt-file C:\LocalAI\generated_images\localai-ltjzewli.negative-prompt.txt --width 1024 --height 1024 --steps 20 --seed 42 --output C:\LocalAI\generated_images\image_20261031_195740_111000.png
+2026-10-31 19:57:40,386 INFO engine.generative.engine: sd-cli: ggml_vulkan: Found 1 Vulkan devices:
+2026-10-31 19:57:40,387 INFO engine.generative.engine: sd-cli: ggml_vulkan: 0 = AMD Radeon RX 6400 (AMD proprietary driver) | uma: 0 | fp16: 1 | bf16: 0 | fp4: 0 | warp size: 32 | shared memory: 32768 | int dot: 1 | matrix cores: none
+2026-10-31 19:57:40,387 INFO engine.generative.engine: sd-cli: load_backend: loaded Vulkan backend from C:\LocalAI\engine\generative\bin\ggml-vulkan.dll
+2026-10-31 19:57:40,398 INFO engine.generative.engine: sd-cli: load_backend: loaded CPU backend from C:\LocalAI\engine\generative\bin\ggml-cpu-haswell.dll
+2026-10-31 19:57:40,398 INFO engine.generative.engine: sd-cli: [I] loading model from 'C:\LLM\sd_xl_base_1.0.safetensors' --- diffusion_engine.cpp:685
+2026-10-31 19:57:40,404 INFO engine.generative.engine: sd-cli: [I] load C:\LLM\sd_xl_base_1.0.safetensors using safetensors format --- model_loader.cpp:222
+2026-10-31 19:57:40,437 INFO engine.generative.engine: sd-cli: [I] Version: SDXL  --- diffusion_engine.cpp:975
+2026-10-31 19:57:40,438 INFO engine.generative.engine: sd-cli: [I] auto-fit plan: --- backend_fit.cpp:323
+2026-10-31 19:57:40,438 INFO engine.generative.engine: sd-cli: [I]   devices: --- backend_fit.cpp:324
+2026-10-31 19:57:40,438 INFO engine.generative.engine: sd-cli: [I]     Vulkan0      AMD Radeon RX 6400               free   3443 MiB, budget   3276 MiB --- backend_fit.cpp:328
+2026-10-31 19:57:40,438 INFO engine.generative.engine: sd-cli: [I]     RAM          free  24349 MiB, params budget  21914 MiB --- backend_fit.cpp:334
+2026-10-31 19:57:40,439 INFO engine.generative.engine: sd-cli: [I]   compute-device weight cache priority: diffusion > te > vae --- backend_fit.cpp:336
+2026-10-31 19:57:40,439 INFO engine.generative.engine: sd-cli: [I]   components (params: compute device -> RAM -> other GPU -> disk): --- backend_fit.cpp:337
+2026-10-31 19:57:40,439 INFO engine.generative.engine: sd-cli: [I]     DiT          params   4897 MiB, compute reserve  2048 MiB -> compute Vulkan0, params cpu --- backend_fit.cpp:348
+2026-10-31 19:57:40,439 INFO engine.generative.engine: sd-cli: [I]     Conditioner  params   1559 MiB, compute reserve  2048 MiB -> compute CPU, params cpu --- backend_fit.cpp:348
+2026-10-31 19:57:40,439 INFO engine.generative.engine: sd-cli: [I]     VAE          params    159 MiB, compute reserve  1024 MiB -> compute Vulkan0, params cpu --- backend_fit.cpp:348
+2026-10-31 19:57:40,439 INFO engine.generative.engine: sd-cli: [I] auto-fit: --backend "diffusion=vulkan0,te=cpu,vae=vulkan0" --params-backend "diffusion=cpu,te=cpu,vae=cpu" --- backend_fit.cpp:477
+2026-10-31 19:57:40,469 INFO engine.generative.engine: sd-cli: [I] Weight type stat:                      f16: 2515  --- diffusion_engine.cpp:1548
+2026-10-31 19:57:40,469 INFO engine.generative.engine: sd-cli: [I] Conditioner weight type stat:          f16: 587   --- diffusion_engine.cpp:1549
+2026-10-31 19:57:40,469 INFO engine.generative.engine: sd-cli: [I] Diffusion model weight type stat:      f16: 1680  --- diffusion_engine.cpp:1550
+2026-10-31 19:57:40,469 INFO engine.generative.engine: sd-cli: [I] VAE weight type stat:                  f16: 248   --- diffusion_engine.cpp:1551
+2026-10-31 19:57:40,548 INFO engine.generative.engine: sd-cli: [I] using VAE for encoding / decoding --- model_builders.cpp:210
+2026-10-31 19:57:40,548 INFO engine.generative.engine: sd-cli: [I] vae decoder: ch = 128 --- auto_encoder_kl.hpp:529
+2026-10-31 19:57:40,548 INFO engine.generative.engine: sd-cli: [W] No valid VAE specified with --vae or --force-sdxl-vae-conv-scale flag set, using Conv2D scale 0.031 --- sd.cpp:15
+2026-10-31 19:57:40,549 INFO engine.generative.engine: sd-cli: [I] flash attention auto: CPU -> on (CPU) --- flash_attn.cpp:66
+2026-10-31 19:57:40,778 INFO engine.generative.engine: sd-cli: [I] flash attention auto: Vulkan0 -> off (probe: normal 1.761 ms, flash 30.634 ms) --- flash_attn.cpp:95
+2026-10-31 19:57:40,784 INFO engine.generative.engine: sd-cli: [W] conv2d direct auto: Vulkan0 -> off (probe output check failed) --- conv_direct.cpp:79
+2026-10-31 19:57:40,790 INFO engine.generative.engine: sd-cli: [W] conv3d direct auto: Vulkan0 -> off (probe output check failed) --- conv_direct.cpp:79
+2026-10-31 19:57:40,791 INFO engine.generative.engine: sd-cli: [I] total params memory size = 6624.11MB (VRAM 0.00MB, RAM 6624.11MB): text_encoders 1564.36MB(RAM), diffusion_model 4900.07MB(RAM), vae 159.68MB(RAM), controlnet 0.00MB(N/A), extensions 0.00MB(N/A) --- diffusion_engine.cpp:1438
+2026-10-31 19:57:40,791 INFO engine.generative.engine: sd-cli: [I] running in eps-prediction mode --- diffusion_engine.cpp:1467
+2026-10-31 19:57:40,794 INFO engine.generative.engine: sd-cli: [I] generate_image 1024x1024 --- image.cpp:869
+2026-10-31 19:57:40,805 INFO engine.generative.engine: sd-cli: [I] get_sigmas with discrete scheduler --- denoiser.hpp:1129
+2026-10-31 19:57:40,806 INFO engine.generative.engine: sd-cli: [I] sampling using Euler A method --- request.cpp:477
+2026-10-31 19:57:40,820 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 1 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:57:41,029 INFO engine.generative.engine: sd-cli:   |##################################################| 178/178 -   1.04GB/s[K
+2026-10-31 19:57:41,030 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.08s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:57:41,172 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:57:41,592 INFO engine.generative.engine: sd-cli:   |#################                                 | 126/374 -   2.13GB/s[K
+2026-10-31 19:57:41,798 INFO engine.generative.engine: sd-cli:   |########################################          | 294/374 -   2.33GB/s[K
+2026-10-31 19:57:41,798 INFO engine.generative.engine: sd-cli:   |##################################################| 374/374 -   2.01GB/s[K
+2026-10-31 19:57:41,799 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.62s (read: 0.52s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:57:42,640 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:57:42,854 INFO engine.generative.engine: sd-cli:   |##################################################| 15/15 - 192.71MB/s[K
+2026-10-31 19:57:42,854 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:57:44,684 INFO engine.generative.engine: sd-cli: [I] clip build cached graph cut plan done (taking 2 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:57:45,570 INFO engine.generative.engine: sd-cli: [I] get_learned_condition completed, taking 4.75s --- image.cpp:580
+2026-10-31 19:57:45,571 INFO engine.generative.engine: sd-cli: [I] generating image: 1/1 - seed 42 --- image.cpp:920
+2026-10-31 19:57:45,585 INFO engine.generative.engine: sd-cli: [I] unet build cached graph cut plan done (taking 8 ms) --- ggml_graph_cut.cpp:1034
+2026-10-31 19:57:45,814 INFO engine.generative.engine: sd-cli:   |##################################################| 20/20 -  88.54MB/s[K
+2026-10-31 19:57:45,815 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.01s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:57:46,127 INFO engine.generative.engine: sd-cli:   |##################################################| 10/10 -  20.38MB/s[K
+2026-10-31 19:57:46,127 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:57:46,455 INFO engine.generative.engine: sd-cli:   |##################################################| 60/60 - 248.85MB/s[K
+2026-10-31 19:57:46,455 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:57:47,036 INFO engine.generative.engine: sd-cli:   |##################################################| 56/56 - 267.48MB/s[K
+2026-10-31 19:57:47,037 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:57:47,889 INFO engine.generative.engine: sd-cli:   |##########################################        | 184/220 -   2.55GB/s[K
+2026-10-31 19:57:47,889 INFO engine.generative.engine: sd-cli:   |##################################################| 220/220 -   1.69GB/s[K
+2026-10-31 19:57:47,891 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.26s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:57:49,065 INFO engine.generative.engine: sd-cli:   |#######################################           | 165/216 -   2.49GB/s[K
+2026-10-31 19:57:49,066 INFO engine.generative.engine: sd-cli:   |##################################################| 216/216 -   1.74GB/s[K
+2026-10-31 19:57:49,067 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.26s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:57:50,425 INFO engine.generative.engine: sd-cli:   |######################################            | 170/226 -   2.53GB/s[K
+2026-10-31 19:57:50,425 INFO engine.generative.engine: sd-cli:   |##################################################| 226/226 -   1.88GB/s[K
+2026-10-31 19:57:50,426 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.33s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:57:51,820 INFO engine.generative.engine: sd-cli:   |#######################################           | 167/218 -   2.55GB/s[K
+2026-10-31 19:57:51,820 INFO engine.generative.engine: sd-cli:   |##################################################| 218/218 -   1.79GB/s[K
+2026-10-31 19:57:51,822 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.28s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:57:57,880 INFO engine.generative.engine: sd-cli:   |########################################          | 172/218 -   2.54GB/s[K
+2026-10-31 19:57:57,881 INFO engine.generative.engine: sd-cli:   |##################################################| 218/218 -   1.77GB/s[K
+2026-10-31 19:57:57,882 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.42s (read: 0.27s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:57:59,300 INFO engine.generative.engine: sd-cli:   |#######################################           | 168/220 -   2.59GB/s[K
+2026-10-31 19:57:59,301 INFO engine.generative.engine: sd-cli:   |##################################################| 220/220 -   1.87GB/s[K
+2026-10-31 19:57:59,302 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.41s (read: 0.27s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:58:04,967 INFO engine.generative.engine: sd-cli:   |##################################################| 58/58 - 330.78MB/s[K
+2026-10-31 19:58:04,968 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.03s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:58:06,219 INFO engine.generative.engine: sd-cli:   |##################################################| 58/58 - 303.15MB/s[K
+2026-10-31 19:58:06,219 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:58:08,449 INFO engine.generative.engine: sd-cli:   |##################################################| 60/60 - 316.46MB/s[K
+2026-10-31 19:58:08,449 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.21s (read: 0.02s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:58:11,076 INFO engine.generative.engine: sd-cli:   |##################################################| 12/12 -  39.10MB/s[K
+2026-10-31 19:58:11,076 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.22s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:58:14,539 INFO engine.generative.engine: sd-cli:   |##################################################| 12/12 -  31.78MB/s[K
+2026-10-31 19:58:14,539 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.20s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:58:14,927 INFO engine.generative.engine: sd-cli:   |##################################################| 12/12 -  31.47MB/s[K
+2026-10-31 19:58:14,927 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.20s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:58:15,083 INFO engine.generative.engine: sd-cli:   |##################################################| 4/4 -   1.10MB/s[K
+2026-10-31 19:58:15,084 INFO engine.generative.engine: sd-cli: [I] loading tensors completed, taking 0.02s (read: 0.00s, memcpy: 0.00s, convert: 0.00s, copy_to_backend: 0.00s) --- model_loader.cpp:1412
+2026-10-31 19:58:42,855 INFO engine.generative.engine: sd-cli:   |==>                                               |  1/20 -  29.67s/it - ETA 09:23[K
+2026-10-31 19:59:10,481 INFO engine.generative.engine: sd-cli:   |=====>                                            |  2/20 -  27.62s/it - ETA 08:35[K
+2026-10-31 19:59:13,928 ERROR app.image_generation: Image generation failed
+Traceback (most recent call last):
+  File "C:\LocalAI\app\image_generation.py", line 46, in run
+    self.engine.generate(
+    ~~~~~~~~~~~~~~~~~~~~^
+        self.model_path, self.prompt, self.output_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        progress=self.status.emit, cancelled=self.stop_event.is_set,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        **self.options,
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\LocalAI\engine\generative\engine.py", line 284, in generate
+    raise GenerativeModelError("Генерация отменена пользователем.")
+engine.generative.engine.GenerativeModelError: Генерация отменена пользователем.
